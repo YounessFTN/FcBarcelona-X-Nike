@@ -1,9 +1,18 @@
 # FcBarcelona X Nike
 
+<<<<<<< HEAD
 ## Description
 
 This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-performance and modern development environment, as well as [React.js](https://react.dev/) for building dynamic and responsive user interfaces.
 
+=======
+sonia tu dois ajouter une description de la marque
+
+## Description
+
+This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-performance and modern development environment, as well as [React.js](https://react.dev/) for building dynamic and responsive user interfaces.
+
+>>>>>>> 8a73a832a711aea5bb8a84bc12fd1fad2e88a9c7
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (version 14.18+)
@@ -20,7 +29,11 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
 2. Navigate to the project directory :
 
    ```bash
+<<<<<<< HEAD
    cd exercices-WebTech-lxp-barcelone
+=======
+   cd FcBarcelona-X-Nike
+>>>>>>> 8a73a832a711aea5bb8a84bc12fd1fad2e88a9c7
    ```
 
 3. Install the dependencies :
