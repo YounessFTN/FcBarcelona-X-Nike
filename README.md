@@ -13,7 +13,7 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/YounessFTN/exercices-WebTech-lxp-barcelone.git
+   git clone https://github.com/YounessFTN/FcBarcelona-X-Nike.git
 
    ```
 
