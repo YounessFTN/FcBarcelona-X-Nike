@@ -22,7 +22,7 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
 2. Navigate to the project directory :
 
    ```bash
-   cd exercices-WebTech-lxp-barcelone
+   cd FcBarcelona-X-Nike
    ```
 
 3. Install the dependencies :
