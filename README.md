@@ -1,5 +1,7 @@
 # FcBarcelona X Nike
 
+sonia tu dois ajouter une description de la marque
+
 ## Description
 
 This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-performance and modern development environment, as well as [React.js](https://react.dev/) for building dynamic and responsive user interfaces.
