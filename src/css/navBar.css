@@ -1,0 +1,62 @@
+.navBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+  width: 100%;
+  height: 64px;
+  left: 0px;
+  top: 0px;
+  position: fixed;
+  border-bottom: solid 1px #000000;
+  background-color: white;
+}
+.navBar-Left {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+  width: 100%;
+  height: 64px;
+}
+.listeLink-NavBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+  width: 100%;
+  height: 64px;
+}
+.divider-NavBar {
+  position: relative; /* Ajoutez cette propriété */
+  display: flex;
+  align-items: center; /* Aligne le contenu au centre verticalement */
+}
+
+.nbProduitsPanier {
+  z-index: 2;
+  position: absolute;
+  right: -10px; /* Ajustez cette valeur pour le positionnement horizontal */
+  top: -10px; /* Ajustez cette valeur pour le positionnement vertical */
+  background-color: red;
+  font-size: 12px;
+  color: white;
+  padding: 4px; /* Ajustez le padding pour maintenir un cercle */
+  border-radius: 50%;
+  width: 24px; /* Limitez la largeur */
+  height: 24px; /* Limitez la hauteur pour garder le cercle */
+  display: flex; /* Utilisez flex pour centrer le texte */
+  justify-content: center; /* Centre le contenu horizontalement */
+  align-items: center; /* Centre le contenu verticalement */
+}
+.cursor-pointer:hover {
+  transform: scale(1.1); /* Agrandit légèrement l'icône */
+  transition: transform 0.2s; /* Ajoute une transition douce */
+  color: #ff5733; /* Changez la couleur lors du survol (optionnel) */
+}
