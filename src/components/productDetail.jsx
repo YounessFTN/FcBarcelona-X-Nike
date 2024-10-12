@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { basket } from "../data/basket";
 import { productList } from "../data/produtcs";
 import { Footer } from "./footer";
 import { NavBar } from "./navBar";
 import { ScrollToTop } from "./scroolToTop";
 
-export function ProductDetail({ setBasket }) {
+export function ProductDetail() {
   const { id } = useParams();
   const numericId = Number(id);
   const product = productList.find((item) => item.id === numericId);
@@ -26,16 +27,13 @@ export function ProductDetail({ setBasket }) {
   };
 
   const handleClick = () => {
-    addCart(
-      {
-        ...product,
-        quantity,
-        size: selectedSize,
-        color: selectedColor,
-        totalPrice: product.price * quantity,
-      },
-      setBasket
-    ); // On passe setBasket ici
+    addCart({
+      ...product,
+      quantity,
+      size: selectedSize,
+      color: selectedColor,
+      totalPrice: product.price * quantity,
+    });
   };
 
   const isButtonDisabled = !selectedSize || !selectedColor;
@@ -113,19 +111,14 @@ export function ProductDetail({ setBasket }) {
   );
 }
 
-function addCart(product, setBasket) {
-  const existingProduct = initialBasket.find((item) => item.id === product.id);
-  let newBasket;
-
+function addCart(product) {
+  const existingProduct = basket.find((item) => item.id === product.id);
   if (existingProduct) {
     existingProduct.quantity += product.quantity;
-    newBasket = [...initialBasket]; // Cloner le panier pour forcer la mise à jour
   } else {
-    newBasket = [...initialBasket, product];
+    basket.push(product);
   }
-
-  setBasket(newBasket); // Mise à jour du panier avec le nouvel état
-  console.log(newBasket);
+  console.log(basket);
 }
 
 function SizeProducts({ sizes, setSelectedSize }) {
