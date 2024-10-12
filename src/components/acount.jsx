@@ -21,7 +21,7 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 
-export function Acount() {
+export function Account() {
   const [open, setOpen] = React.useState(0);
 
   const handleOpen = (value) => {
