@@ -113,11 +113,22 @@ export function ProductDetail() {
 
 function addCart(product) {
   const existingProduct = basket.find((item) => item.id === product.id);
+
   if (existingProduct) {
-    existingProduct.quantity += product.quantity;
+    // Vérifie si la taille ou la couleur diffère
+    if (
+      existingProduct.size === product.size &&
+      existingProduct.color === product.color
+    ) {
+      existingProduct.quantity += product.quantity; // Met à jour la quantité
+    } else {
+      // Pousse un nouvel objet dans le panier si la taille ou la couleur est différente
+      basket.push({ ...product }); // Copie du produit pour éviter les références
+    }
   } else {
-    basket.push(product);
+    basket.push(product); // Ajoute le nouveau produit s'il n'existe pas
   }
+
   console.log(basket);
 }
 
