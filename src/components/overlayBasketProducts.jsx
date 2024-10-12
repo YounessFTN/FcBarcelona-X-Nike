@@ -57,6 +57,7 @@ export function OverlayBasketProducts() {
             const quantityProducts = product.quantity;
             const priceProducts = product.totalPrice;
             const selectedSize = product.size;
+            const colorProducts = product.color;
 
             return (
               <li key={product.id} className="flex items-center gap-4">
@@ -73,14 +74,17 @@ export function OverlayBasketProducts() {
 
                   <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
                     <div>
+                      <dt className="inline">Quantity: </dt>
+                      <dd className="inline">{quantityProducts}</dd>
+                    </div>
+                    <div>
                       <dt className="inline">Size: </dt>
                       <dd className="inline">{selectedSize}</dd>{" "}
                       {/* Affichez uniquement la taille sélectionnée ici */}
                     </div>
-
                     <div>
                       <dt className="inline">Quantity: </dt>
-                      <dd className="inline">{quantityProducts}</dd>
+                      <dd className="inline">{colorProducts}</dd>
                     </div>
 
                     <div>
