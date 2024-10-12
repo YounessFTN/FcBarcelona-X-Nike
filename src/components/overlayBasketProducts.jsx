@@ -5,12 +5,6 @@ export function OverlayBasketProducts() {
   const [basket, setBasket] = useState(initialBasket); // État local pour le panier
   const [nobreProduitsPanier, setNobreProduitsPanier] = useState(0);
 
-  // Fonction pour calculer le prix total
-  const totalPrice = basket.reduce((total, product) => {
-    const priceValue = parseFloat(product.price.replace("$", ""));
-    return total + priceValue;
-  }, 0);
-
   // Met à jour le nombre de produits dans le panier à chaque changement
   useEffect(() => {
     setNobreProduitsPanier(basket.length);
@@ -42,7 +36,7 @@ export function OverlayBasketProducts() {
 
       <div
         tabIndex={0}
-        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow"
+        className="card card-compact dropdown-content bg-white/30 backdrop-blur-lg rounded-lg z-[1] mt-3 min-w-64 shadow-lg"
       >
         <ul className="p-4 space-y-4">
           {basket.map((product) => {
@@ -52,8 +46,8 @@ export function OverlayBasketProducts() {
                 : "";
             const nameProducts = product.name;
             const quantityProducts = product.quantity;
-            const priceProducts = product.price;
-            const selectedSize = product.selectedSize; // Utiliser la taille sélectionnée
+            const priceProducts = product.price * product.quantity;
+            const selectedSize = product.size;
 
             return (
               <li key={product.id} className="flex items-center gap-4">
@@ -71,8 +65,7 @@ export function OverlayBasketProducts() {
                   <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
                     <div>
                       <dt className="inline">Size: </dt>
-                      <dd className="inline">{selectedSize}</dd>{" "}
-                      {/* Affichez uniquement la taille sélectionnée ici */}
+                      <dd className="inline">{selectedSize}</dd>
                     </div>
 
                     <div>
@@ -81,7 +74,7 @@ export function OverlayBasketProducts() {
                     </div>
 
                     <div>
-                      <dd className="text-xs text-black">{priceProducts}</dd>
+                      <dd className="text-xs text-black">{priceProducts} $</dd>
                     </div>
                   </dl>
                 </div>
@@ -91,9 +84,7 @@ export function OverlayBasketProducts() {
         </ul>
 
         <div className="card-body">
-          <span className="font-semibold">
-            Subtotal: {totalPrice.toFixed(2)}$
-          </span>
+          <span className="font-semibold">Subtotal:</span>
           <div className="card-actions">
             <button className="btn btn-block">
               View Bag {"(" + nobreProduitsPanier + ")"}
