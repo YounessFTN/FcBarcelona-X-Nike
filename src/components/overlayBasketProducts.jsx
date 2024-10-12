@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
-import { basket as initialBasket } from "../data/basket";
+import React, { useContext } from 'react'; // Ajout de l'import de useContext
+import { CartContext } from '../context/CartContext'; // Assure-toi que le chemin est correct
 
 export function OverlayBasketProducts() {
-  const [basket, setBasket] = useState(initialBasket); // État local pour le panier
-  const [nobreProduitsPanier, setNobreProduitsPanier] = useState(0);
+  const { basket } = useContext(CartContext); // Récupère le panier depuis le contexte
 
-  // Fonction pour calculer le prix total
   const totalPrice = basket.reduce((total, product) => {
-    const priceValue = parseFloat(product.price.replace("$", ""));
-    return total + priceValue;
+    const priceValue = parseFloat(product.price);
+    return total + priceValue * product.quantity;
   }, 0);
-
-  // Met à jour le nombre de produits dans le panier à chaque changement
-  useEffect(() => {
-    setNobreProduitsPanier(basket.length);
-  }, [basket]);
 
   return (
     <div className="dropdown dropdown-end">
@@ -35,7 +28,7 @@ export function OverlayBasketProducts() {
             />
           </svg>
           <span className="badge badge-sm indicator-item">
-            {nobreProduitsPanier}
+            {basket.length}
           </span>
         </div>
       </div>
@@ -45,60 +38,43 @@ export function OverlayBasketProducts() {
         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow"
       >
         <ul className="p-4 space-y-4">
-          {basket.map((product) => {
-            const firstImage =
-              Array.isArray(product.image) && product.image.length > 0
-                ? product.image[0]
-                : "";
-            const nameProducts = product.name;
-            const quantityProducts = product.quantity;
-            const priceProducts = product.price;
-            const selectedSize = product.selectedSize; // Utiliser la taille sélectionnée
+          {basket.map((product) => (
+            <li key={product.id} className="flex items-center gap-4">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="size-16 rounded object-cover"
+              />
 
-            return (
-              <li key={product.id} className="flex items-center gap-4">
-                <img
-                  src={firstImage}
-                  alt={nameProducts}
-                  className="size-16 rounded object-cover"
-                />
+              <div className="w-full">
+                <h3 className="font-medium text-sm text-gray-900">
+                  {product.name}
+                </h3>
 
-                <div className="w-full">
-                  <h3 className="font-medium text-sm text-gray-900">
-                    {nameProducts}
-                  </h3>
+                <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                  <div>
+                    <dt className="inline">Size: </dt>
+                    <dd className="inline">{product.size}</dd>
+                  </div>
 
-                  <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
-                    <div>
-                      <dt className="inline">Size: </dt>
-                      <dd className="inline">{selectedSize}</dd>{" "}
-                      {/* Affichez uniquement la taille sélectionnée ici */}
-                    </div>
+                  <div>
+                    <dt className="inline">Color: </dt>
+                    <dd className="inline">{product.color}</dd>
+                  </div>
 
-                    <div>
-                      <dt className="inline">Quantity: </dt>
-                      <dd className="inline">{quantityProducts}</dd>
-                    </div>
-
-                    <div>
-                      <dd className="text-xs text-black">{priceProducts}</dd>
-                    </div>
-                  </dl>
-                </div>
-              </li>
-            );
-          })}
+                  <div>
+                    <dd className="text-xs text-black">{product.price} €</dd>
+                  </div>
+                </dl>
+              </div>
+            </li>
+          ))}
         </ul>
 
         <div className="card-body">
           <span className="font-semibold">
-            Subtotal: {totalPrice.toFixed(2)}$
+            Subtotal: {totalPrice.toFixed(2)} €
           </span>
-          <div className="card-actions">
-            <button className="btn btn-block">
-              View Bag {"(" + nobreProduitsPanier + ")"}
-            </button>
-          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { Footer } from "./footer";
 import { NavBar } from "./navBar";
 import { ScrollToTop } from "./scroolToTop";
-import { ChevronLeftIcon, ChevronRightIcon, CheckIcon } from '@heroicons/react/24/outline'; // Import des icônes
+import { CartContext } from "../context/CartContext"; 
+import { ChevronLeftIcon, ChevronRightIcon, CheckIcon } from '@heroicons/react/24/outline'; 
 
 export function ProductDetail() {
+  const { addToCart } = useContext(CartContext); // Utilisation du contexte pour ajouter au panier
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedSize, setSelectedSize] = useState(""); // Stocker la taille sélectionnée
   const [selectedColor, setSelectedColor] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,10 +51,27 @@ export function ProductDetail() {
   };
 
   const handleClick = () => {
-    addCart({ ...product, quantity, size: selectedSize, color: selectedColor });
+    const requiresSize = product.category === 'chaussures' || product.category === 'vêtements';
+    
+    // Vérifie si la taille est requise pour les chaussures ou vêtements
+    if (requiresSize && !selectedSize) {
+      alert("Veuillez sélectionner une taille pour cet article.");
+      return;
+    }
+
+    const productToAdd = {
+      id: product._id,
+      name: product.name,
+      image: product.image[0], // Miniature du produit
+      quantity,
+      price: product.price,
+      size: requiresSize ? selectedSize : null, // Ajoute la taille si elle est requise, sinon null
+      color: selectedColor,
+    };
+    addToCart(productToAdd); // Ajoute le produit au panier
   };
 
-  const isButtonDisabled = !selectedSize || !selectedColor;
+  const isButtonDisabled = (product.category !== 'accessoires' && (!selectedSize || !selectedColor)) || !selectedColor;
 
   // Gestion du carrousel d'images
   const nextImage = () => {
@@ -113,12 +132,15 @@ export function ProductDetail() {
               <p className="font-bold mb-6 max-w-lg text-2xl text-gray-500 sm:text-2xl md:mb-10 lg:mb-12">
                 {product.price} €
               </p>
+              
               {product.sizes.length > 0 && (
                 <SizeProducts
                   sizes={product.sizes}
                   setSelectedSize={setSelectedSize}
+                  selectedSize={selectedSize} // On passe selectedSize ici
                 />
               )}
+
               <ColorProducts
                 colors={product.colors}
                 selectedColor={selectedColor}
@@ -163,11 +185,7 @@ export function ProductDetail() {
   );
 }
 
-function addCart(product) {
-  console.log("Product added to cart:", product);
-}
-
-function SizeProducts({ sizes, setSelectedSize }) {
+function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
   return (
     <div className="mb-10">
       <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">
@@ -186,7 +204,9 @@ function SizeProducts({ sizes, setSelectedSize }) {
             />
             <label
               htmlFor={`size-${size}`}
-              className="inline-flex items-center justify-between p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer"
+              className={`inline-flex items-center justify-between p-5 border border-gray-200 rounded-lg cursor-pointer ${
+                selectedSize === size ? 'text-red-500' : 'text-gray-900'
+              }`}
             >
               <div className="block">
                 <div className="w-full text-lg font-semibold">{size}</div>
@@ -199,6 +219,8 @@ function SizeProducts({ sizes, setSelectedSize }) {
   );
 }
 
+
+// Fonction ColorProducts pour gérer les couleurs
 function ColorProducts({ colors, selectedColor, setSelectedColor }) {
   return (
     <div className="mb-10">
@@ -223,11 +245,10 @@ function ColorProducts({ colors, selectedColor, setSelectedColor }) {
               style={{ backgroundColor: color }}
             >
               <div className="block w-8 h-8 rounded-full" />
-              {/* Affichage de l'icône d'encoche */}
               {selectedColor === color && (
                 <CheckIcon
                   className="absolute inset-0 w-4 h-4 m-auto"
-                  style={{ color: color === 'white' ? 'black' : 'white' }} // Icône noire pour le blanc, blanche pour les autres couleurs
+                  style={{ color: color === 'white' ? 'black' : 'white' }}
                 />
               )}
             </label>
@@ -237,4 +258,3 @@ function ColorProducts({ colors, selectedColor, setSelectedColor }) {
     </div>
   );
 }
-
