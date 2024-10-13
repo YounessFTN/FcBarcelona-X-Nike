@@ -1,10 +1,39 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { productList } from "../data/produtcs";
 
 export function BestSeller() {
-  const bestSellingProducts = productList
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "https://my-api-heroku-b0d23b24e1c6.herokuapp.com/produits"
+        );
+        const data = await response.json();
+
+        console.log("Données de l'API :", data); // Affiche la réponse de l'API dans la console
+
+        setProducts(data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des produits :", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Tri et sélection des meilleurs produits vendus
+  const bestSellingProducts = products
     .sort((a, b) => b.sold - a.sold)
     .slice(0, 4);
+
+  if (loading) {
+    return <div>Chargement des produits...</div>; // Message de chargement
+  }
 
   return (
     <div id="best-seller" className="bg-white">
@@ -33,7 +62,7 @@ export function BestSeller() {
 
             return (
               <Link
-                key={product.id}
+                key={product.id} // Clé unique pour chaque produit
                 to={`/product/${product.id}`}
                 className="group block overflow-hidden"
               >

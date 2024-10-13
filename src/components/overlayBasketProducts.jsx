@@ -83,7 +83,7 @@ export function OverlayBasketProducts() {
                       {/* Affichez uniquement la taille sélectionnée ici */}
                     </div>
                     <div>
-                      <dt className="inline">Quantity: </dt>
+                      <dt className="inline">Colors: </dt>
                       <dd className="inline">{colorProducts}</dd>
                     </div>
 
