@@ -40,7 +40,7 @@ export function ProductDetail() {
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="text-center">Loading...</p>;
   }
 
   if (error) {
@@ -67,13 +67,14 @@ export function ProductDetail() {
     const productToAdd = {
       id: product._id,
       name: product.name,
-      image: product.image[0], // Miniature du produit
+      image: product.image, // Miniature du produit
       quantity,
       price: product.price,
       size: requiresSize ? selectedSize : null, // Ajoute la taille si elle est requise, sinon null
       color: selectedColor,
     };
-    addToCart(productToAdd); // Ajoute le produit au panier
+    addToCart(productToAdd);
+    console.log(productToAdd); // Ajoute le produit au panier
   };
 
   const isButtonDisabled =

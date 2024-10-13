@@ -39,7 +39,7 @@ export function OverlayBasketProducts() {
           {basket.map((product) => (
             <li key={product.id} className="flex items-center gap-4">
               <img
-                src={product.image}
+                src={product.image[0]}
                 alt={product.name}
                 className="size-16 rounded object-cover"
               />

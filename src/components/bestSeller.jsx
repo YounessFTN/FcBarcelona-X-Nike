@@ -9,7 +9,7 @@ export function BestSeller() {
       .then((response) => response.json())
       .then((data) => {
         const mostPopularProducts = data
-          .filter((product) => product.mostPopular) // Filtrer les produits `mostPopular`
+          .filter((product) => product.sold) // Filtrer les produits `mostPopular`
           .sort((a, b) => b.sold - a.sold) // Trier par `sold` pour les meilleurs vendeurs
           .slice(0, 4); // Limiter à 4 produits
 
