@@ -15,6 +15,7 @@
     "@material-tailwind/react": "^2.1.10",
     "@tailwindcss/forms": "^0.5.9",
     "gsap": "^3.12.5",
+    "ldrs": "^1.0.2",
     "lenis": "^1.1.13",
     "lucide-react": "^0.447.0",
     "react": "^18.3.1",

@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react"; // Importer les hooks useState et useEffect
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AllProducts from "./allProducts.jsx";
 import { NotFound } from "./components/404.jsx";
-import { Account } from "./components/account.jsx"; // Correction orthographique
+import { Account } from "./components/account.jsx";
+import { LoadingComponent } from "./components/loadingComponent.jsx"; // Import du composant Loading
+import { Login } from "./components/login.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
+import { Register } from "./components/register.jsx";
 import Home from "./home.jsx";
 import "./index.css";
 
@@ -22,7 +26,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/account",
-    element: <Account />, // Page du compte utilisateur, correction du nom
+    element: <Account />, // Page du compte utilisateur
+  },
+  {
+    path: "/login",
+    element: <Login />, // Page du compte utilisateur
+  },
+  {
+    path: "/register",
+    element: <Register />, // Page du compte utilisateur
   },
   {
     path: "*",
@@ -31,9 +43,17 @@ const router = createBrowserRouter([
 ]);
 
 export default function Router() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Simule le chargement pendant 2 secondes
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <>{isLoading ? <LoadingComponent /> : <RouterProvider router={router} />}</>
   );
 }

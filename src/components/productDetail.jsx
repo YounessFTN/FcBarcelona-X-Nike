@@ -3,12 +3,15 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
+import { mirage } from "ldrs";
 import { useContext, useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { Footer } from "./footer";
 import { NavBar } from "./navBar";
 import { ScrollToTop } from "./scroolToTop";
+
+mirage.register();
 
 export function ProductDetail() {
   const { addToCart } = useContext(CartContext); // Utilisation du contexte pour ajouter au panier
@@ -40,7 +43,11 @@ export function ProductDetail() {
   }, [id]);
 
   if (loading) {
-    return <p className="text-center">Loading...</p>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <l-mirage className="" size="60" speed="2.5" color="black"></l-mirage>
+      </div>
+    );
   }
 
   if (error) {

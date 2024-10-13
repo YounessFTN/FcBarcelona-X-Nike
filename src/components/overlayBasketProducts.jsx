@@ -1,4 +1,4 @@
-import React, { useContext } from "react"; // Ajout de l'import de useContext
+import { useContext } from "react"; // Ajout de l'import de useContext
 import { CartContext } from "../context/CartContext"; // Assure-toi que le chemin est correct
 
 export function OverlayBasketProducts() {
@@ -35,7 +35,9 @@ export function OverlayBasketProducts() {
         tabIndex={0}
         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow"
       >
-        <ul className="p-4 space-y-4">
+        <ul className="p-4 space-y-4 max-h-60 overflow-y-auto">
+          {" "}
+          {/* Ajout des styles de défilement */}
           {basket.map((product) => (
             <li key={product.id} className="flex items-center gap-4">
               <img
@@ -73,6 +75,11 @@ export function OverlayBasketProducts() {
           <span className="font-semibold">
             Subtotal: {totalPrice.toFixed(2)} €
           </span>
+          <div className="card-actions">
+            <button className="btn btn-block">
+              View Bag {"(" + basket.length + ")"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

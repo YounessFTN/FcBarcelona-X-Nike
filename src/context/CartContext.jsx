@@ -1,10 +1,19 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 // Créer le contexte pour le panier
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [basket, setBasket] = useState([]); // L'état du panier
+  // Récupérer le panier du localStorage ou initialiser un tableau vide
+  const [basket, setBasket] = useState(() => {
+    const savedBasket = localStorage.getItem("basket");
+    return savedBasket ? JSON.parse(savedBasket) : [];
+  });
+
+  // Utiliser useEffect pour mettre à jour le localStorage chaque fois que le panier change
+  useEffect(() => {
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }, [basket]);
 
   // Fonction pour ajouter un produit au panier
   const addToCart = (product) => {

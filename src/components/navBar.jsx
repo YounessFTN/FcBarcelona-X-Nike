@@ -1,9 +1,9 @@
 import { AlignLeft, Hexagon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom"; // Import de Link
+
 import "../css/navBar.css";
 import { OverlayBasketProducts } from "./overlayBasketProducts";
-
 let styleSVG = {
   color: "#000000",
   width: 28,
@@ -14,16 +14,16 @@ function LienNavBar() {
   return (
     <>
       <li>
-        <Link to="/products">Products</Link> {/* Lien vers allProducts */}
+        <Link to="/products">Products</Link> {/* Changement ici */}
       </li>
       <li>
-        <a href="#">Item 2</a>
+        <Link to="/login">Login</Link>
       </li>
       <li>
-        <a href="#">Item 3</a>
+        <Link to="/register">Register</Link>
       </li>
       <li>
-        <a href="#">Item 4</a>
+        <Link to="/">item</Link>
       </li>
     </>
   );
@@ -34,9 +34,11 @@ export function NavBar() {
 }
 
 function NavBar1() {
+  // État pour contrôler la visibilité du pop-up de recherche
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef(null); // Référence pour l'input de recherche
 
+  // Gérer l'événement clavier (⌘ + K)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.metaKey && e.key === "k") {
@@ -51,6 +53,7 @@ function NavBar1() {
     };
   }, []);
 
+  // Gérer le clic à l'extérieur pour fermer le pop-up de recherche
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (inputRef.current && !inputRef.current.contains(e.target)) {
@@ -70,14 +73,19 @@ function NavBar1() {
   return (
     <div className="navbar fixed z-30 bg-base-100 px-12">
       <div className="navbar-start hidden lg:flex">
-        <ul className="menu menu-horizontal">
+        <ul className="menu menu-horizontal ">
           <LienNavBar />
         </ul>
       </div>
       <div className="navbar-start lg:hidden">
-        <div className="dropdown">
+        <div className="dropdown ">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <AlignLeft className="cursor-pointer" style={styleSVG} />
+            <AlignLeft
+              className="cursor-pointer"
+              style={{
+                ...styleSVG,
+              }}
+            />
           </div>
           <ul
             tabIndex={0}
@@ -90,12 +98,28 @@ function NavBar1() {
 
       <div className="navbar-center flex justify-center">
         <Link to="/" className="btn btn-ghost text-xl">
-          <Hexagon style={styleSVG} />
+          <Hexagon
+            className=""
+            style={{
+              ...styleSVG,
+            }}
+          />
           IbericX
         </Link>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end ">
+        <div className="hidden lg:flex form-control">
+          <label className="input input-bordered flex items-center gap-2">
+            <input type="text" className="grow" placeholder="Search" />
+            <kbd className="kbd kbd-sm">⌘</kbd>
+            <kbd className="kbd kbd-sm">K</kbd>
+          </label>
+        </div>
+
+        {/* ------------------ PANIER ------------------------- */}
         <OverlayBasketProducts />
+        {/* ------------------ PROFIL ------------------------- */}
+
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -104,7 +128,7 @@ function NavBar1() {
           >
             <div className="w-10 rounded-full">
               <img
-                alt="Profile"
+                alt="Tailwind CSS Navbar component"
                 src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
               />
             </div>
@@ -127,7 +151,7 @@ function NavBar1() {
           </ul>
         </div>
       </div>
-
+      {/* Pop-up de recherche */}
       {isSearchOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[9999]">
           <div
