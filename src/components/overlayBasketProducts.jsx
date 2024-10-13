@@ -36,10 +36,12 @@ export function OverlayBasketProducts() {
         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow"
       >
         <ul className="p-4 space-y-4 max-h-60 overflow-y-auto">
-          {" "}
           {/* Ajout des styles de défilement */}
-          {basket.map((product) => (
-            <li key={product.id} className="flex items-center gap-4">
+          {basket.map((product, index) => (
+            <li
+              key={`${product.id}-${index}`}
+              className="flex items-center gap-4"
+            >
               <img
                 src={product.image[0]}
                 alt={product.name}

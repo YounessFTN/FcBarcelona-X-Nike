@@ -91,7 +91,7 @@ export const Register = () => {
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    className="mt-1 w-full rounded-md  bg-white text-sm text-gray-700 shadow-sm"
                     required
                   />
                 </div>
