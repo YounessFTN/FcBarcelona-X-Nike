@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AllProducts from "./allProducts.jsx";
 import { NotFound } from "./components/404.jsx";
-import { Account } from "./components/acount.jsx"; // Correction orthographique
+import { Account } from "./components/account.jsx"; // Correction orthographique
 import { ProductDetail } from "./components/productDetail.jsx";
 import Home from "./home.jsx";
 import "./index.css";

@@ -97,7 +97,11 @@ function NavBar1() {
       <div className="navbar-end">
         <OverlayBasketProducts />
         <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
             <div className="w-10 rounded-full">
               <img
                 alt="Profile"
@@ -126,8 +130,15 @@ function NavBar1() {
 
       {isSearchOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[9999]">
-          <div ref={inputRef} className="bg-white p-4 rounded-lg shadow-lg w-1/2">
-            <input type="text" placeholder="Search products..." className="input input-bordered w-full" />
+          <div
+            ref={inputRef}
+            className="bg-white p-4 rounded-lg shadow-lg w-1/2"
+          >
+            <input
+              type="text"
+              placeholder="Search products..."
+              className="input input-bordered w-full"
+            />
           </div>
         </div>
       )}

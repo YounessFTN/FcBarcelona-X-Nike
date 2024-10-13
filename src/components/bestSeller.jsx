@@ -2,38 +2,23 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export function BestSeller() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [bestSellingProducts, setBestSellingProducts] = useState([]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          "https://my-api-heroku-b0d23b24e1c6.herokuapp.com/produits"
-        );
-        const data = await response.json();
+    fetch("https://my-api-heroku-b0d23b24e1c6.herokuapp.com/produits")
+      .then((response) => response.json())
+      .then((data) => {
+        const mostPopularProducts = data
+          .filter((product) => product.mostPopular) // Filtrer les produits `mostPopular`
+          .sort((a, b) => b.sold - a.sold) // Trier par `sold` pour les meilleurs vendeurs
+          .slice(0, 4); // Limiter à 4 produits
 
-        console.log("Données de l'API :", data); // Affiche la réponse de l'API dans la console
-
-        setProducts(data);
-      } catch (error) {
+        setBestSellingProducts(mostPopularProducts);
+      })
+      .catch((error) => {
         console.error("Erreur lors de la récupération des produits :", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+      });
   }, []);
-
-  // Tri et sélection des meilleurs produits vendus
-  const bestSellingProducts = products
-    .sort((a, b) => b.sold - a.sold)
-    .slice(0, 4);
-
-  if (loading) {
-    return <div>Chargement des produits...</div>; // Message de chargement
-  }
 
   return (
     <div id="best-seller" className="bg-white">
@@ -62,8 +47,8 @@ export function BestSeller() {
 
             return (
               <Link
-                key={product.id} // Clé unique pour chaque produit
-                to={`/product/${product.id}`}
+                key={product._id}
+                to={`/product/${product._id}`}
                 className="group block overflow-hidden"
               >
                 <div className="relative h-[350px] sm:h-[450px]">
