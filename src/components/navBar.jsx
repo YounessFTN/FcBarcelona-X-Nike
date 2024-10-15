@@ -1,5 +1,5 @@
 import { AlignLeft, Hexagon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ProductSearchInput } from "./productSearchInput";
 import { Link } from "react-router-dom"; // Import de Link
 
 import "../css/navBar.css";
@@ -34,42 +34,6 @@ export function NavBar() {
 }
 
 function NavBar1() {
-  // État pour contrôler la visibilité du pop-up de recherche
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const inputRef = useRef(null); // Référence pour l'input de recherche
-
-  // Gérer l'événement clavier (⌘ + K)
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.metaKey && e.key === "k") {
-        e.preventDefault();
-        setIsSearchOpen(true); // Ouvrir l'input de recherche avec Commande + K
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
-  // Gérer le clic à l'extérieur pour fermer le pop-up de recherche
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (inputRef.current && !inputRef.current.contains(e.target)) {
-        setIsSearchOpen(false); // Fermer le pop-up si cliqué à l'extérieur
-      }
-    };
-
-    if (isSearchOpen) {
-      window.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isSearchOpen]);
-
   return (
     <div className="navbar fixed z-30 bg-base-100 px-12">
       <div className="navbar-start hidden lg:flex">
@@ -108,13 +72,7 @@ function NavBar1() {
         </Link>
       </div>
       <div className="navbar-end ">
-        <div className="hidden lg:flex form-control">
-          <label className="input input-bordered flex items-center gap-2">
-            <input type="text" className="grow" placeholder="Search" />
-            <kbd className="kbd kbd-sm">⌘</kbd>
-            <kbd className="kbd kbd-sm">K</kbd>
-          </label>
-        </div>
+        <ProductSearchInput />
 
         {/* ------------------ PANIER ------------------------- */}
         <OverlayBasketProducts />
@@ -151,21 +109,6 @@ function NavBar1() {
           </ul>
         </div>
       </div>
-      {/* Pop-up de recherche */}
-      {isSearchOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[9999]">
-          <div
-            ref={inputRef}
-            className="bg-white p-4 rounded-lg shadow-lg w-1/2"
-          >
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="input input-bordered w-full"
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 }
