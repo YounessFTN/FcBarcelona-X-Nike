@@ -1,17 +1,17 @@
+import { useEffect, useState } from "react"; // Importer les hooks useState et useEffect
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AllProducts } from "./allPoducts.jsx"; // Vérifie que le nom du fichier est correct (devrait probablement être allProducts.jsx)
+import AllProducts from "./allProducts.jsx";
 import { NotFound } from "./components/404.jsx";
-import { Acount } from "./components/acount.jsx";
+import { Account } from "./components/account.jsx";
+import { LoadingComponent } from "./components/loadingComponent.jsx"; // Import du composant Loading
+import { Login } from "./components/login.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
+import { Register } from "./components/register.jsx";
 import Home from "./home.jsx";
 import "./index.css";
 
 // Configuration du routeur
 const router = createBrowserRouter([
-  {
-    path: "*",
-    element: <NotFound />, // Page 404 pour les routes non trouvées
-  },
   {
     path: "/",
     element: <Home />, // Home page
@@ -26,13 +26,34 @@ const router = createBrowserRouter([
   },
   {
     path: "/account",
-    element: <Acount />, // Page 404 pour les routes non trouvées
+    element: <Account />, // Page du compte utilisateur
+  },
+  {
+    path: "/login",
+    element: <Login />, // Page du compte utilisateur
+  },
+  {
+    path: "/register",
+    element: <Register />, // Page du compte utilisateur
+  },
+  {
+    path: "*",
+    element: <NotFound />, // Page 404 pour les routes non trouvées
   },
 ]);
+
 export default function Router() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000); // Simule le chargement pendant 2 secondes
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <>{isLoading ? <LoadingComponent /> : <RouterProvider router={router} />}</>
   );
 }

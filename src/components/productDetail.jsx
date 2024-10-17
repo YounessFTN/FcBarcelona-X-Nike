@@ -1,21 +1,56 @@
-import { useState } from "react";
+import {
+  CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
+import { mirage } from "ldrs";
+import { useContext, useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
-import { basket } from "../data/basket";
-import { productList } from "../data/produtcs";
+import { CartContext } from "../context/CartContext";
 import { Footer } from "./footer";
 import { NavBar } from "./navBar";
 import { ScrollToTop } from "./scroolToTop";
 
+mirage.register();
+
 export function ProductDetail() {
+  const { addToCart } = useContext(CartContext); // Utilisation du contexte pour ajouter au panier
   const { id } = useParams();
-  const numericId = Number(id);
-  const product = productList.find((item) => item.id === numericId);
-
+  const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedSize, setSelectedSize] = useState(""); // Stocker la taille sélectionnée
   const [selectedColor, setSelectedColor] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  if (!product) {
+  useEffect(() => {
+    fetch(`https://my-api-heroku-b0d23b24e1c6.herokuapp.com/produits/${id}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Product not found");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <l-mirage className="" size="60" speed="2.5" color="black"></l-mirage>
+      </div>
+    );
+  }
+
+  if (error) {
     return <Navigate to="*" replace />;
   }
 
@@ -27,10 +62,44 @@ export function ProductDetail() {
   };
 
   const handleClick = () => {
-    addCart({ ...product, quantity, size: selectedSize, color: selectedColor });
+    const requiresSize =
+      product.category === "chaussures" || product.category === "vêtements";
+
+    // Vérifie si la taille est requise pour les chaussures ou vêtements
+    if (requiresSize && !selectedSize) {
+      alert("Veuillez sélectionner une taille pour cet article.");
+      return;
+    }
+
+    const productToAdd = {
+      id: product._id,
+      name: product.name,
+      image: product.image, // Miniature du produit
+      quantity,
+      price: product.price,
+      size: requiresSize ? selectedSize : null, // Ajoute la taille si elle est requise, sinon null
+      color: selectedColor,
+    };
+    addToCart(productToAdd);
+    console.log(productToAdd); // Ajoute le produit au panier
   };
 
-  const isButtonDisabled = !selectedSize || !selectedColor;
+  const isButtonDisabled =
+    (product.category !== "accessoires" && (!selectedSize || !selectedColor)) ||
+    !selectedColor;
+
+  // Gestion du carrousel d'images
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === product.image.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? product.image.length - 1 : prevIndex - 1
+    );
+  };
 
   return (
     <>
@@ -39,9 +108,32 @@ export function ProductDetail() {
       <section>
         <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
           <div className="flex flex-col items-start gap-8 sm:gap-20 lg:flex-row-reverse lg:items-start">
+            {/* Affichage de l'image avec carrousel */}
+            <div className="lg:w-2/3 order-first lg:order-last relative">
+              <div className="relative h-[600px] w-full overflow-hidden">
+                <img
+                  src={product.image[currentImageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-contain"
+                />
+                <button
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 text-gray-600 hover:text-gray-900"
+                  onClick={prevImage}
+                >
+                  <ChevronLeftIcon className="h-8 w-8" />
+                </button>
+                <button
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 text-gray-600 hover:text-gray-900"
+                  onClick={nextImage}
+                >
+                  <ChevronRightIcon className="h-8 w-8" />
+                </button>
+              </div>
+            </div>
+
             <div className="lg:w-1/3">
               <p className="font-bold max-w-lg text-sm text-red-500 sm:text-base md:mb-10 lg:mb-2">
-                {product.type.toUpperCase()}
+                {product.category.toUpperCase()}
               </p>
               <h1 className="text-xs mb-4 max-w-3xl font-bold md:text-5xl">
                 {product.name}
@@ -53,14 +145,20 @@ export function ProductDetail() {
                 {product.description}
               </p>
               <p className="font-bold mb-6 max-w-lg text-2xl text-gray-500 sm:text-2xl md:mb-10 lg:mb-12">
-                {product.price}
+                {product.price} €
               </p>
-              <SizeProducts
-                sizes={product.sizes}
-                setSelectedSize={setSelectedSize}
-              />
+
+              {product.sizes.length > 0 && (
+                <SizeProducts
+                  sizes={product.sizes}
+                  setSelectedSize={setSelectedSize}
+                  selectedSize={selectedSize} // On passe selectedSize ici
+                />
+              )}
+
               <ColorProducts
                 colors={product.colors}
+                selectedColor={selectedColor}
                 setSelectedColor={setSelectedColor}
               />
 
@@ -94,9 +192,6 @@ export function ProductDetail() {
                 Add to Bag
               </button>
             </div>
-            <div className="lg:w-2/3 sticky top-28">
-              <img src={product.image[0]} alt="" className="w-full" />
-            </div>
           </div>
         </div>
       </section>
@@ -105,25 +200,14 @@ export function ProductDetail() {
   );
 }
 
-function addCart(product) {
-  const existingProduct = basket.find((item) => item.id === product.id);
-  if (existingProduct) {
-    existingProduct.quantity += product.quantity;
-  } else {
-    basket.push(product);
-  }
-  console.log(basket);
-}
-
-function SizeProducts({ sizes, setSelectedSize }) {
-  const sizeList = Object.keys(sizes).filter((size) => sizes[size]);
+function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
   return (
     <div className="mb-10">
       <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">
         Available Sizes :
       </h3>
       <ul className="grid w-fit gap-2 grid-cols-5">
-        {sizeList.map((size) => (
+        {sizes.map((size) => (
           <li key={size}>
             <input
               type="radio"
@@ -131,12 +215,13 @@ function SizeProducts({ sizes, setSelectedSize }) {
               name="size"
               value={size}
               className="hidden peer"
-              required
               onChange={() => setSelectedSize(size)}
             />
             <label
               htmlFor={`size-${size}`}
-              className="inline-flex items-center justify-between p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              className={`inline-flex items-center justify-between p-5 border border-gray-200 rounded-lg cursor-pointer ${
+                selectedSize === size ? "text-red-500" : "text-gray-900"
+              }`}
             >
               <div className="block">
                 <div className="w-full text-lg font-semibold">{size}</div>
@@ -149,39 +234,42 @@ function SizeProducts({ sizes, setSelectedSize }) {
   );
 }
 
-export function ColorProducts({ colors, setSelectedColor }) {
+// Fonction ColorProducts pour gérer les couleurs
+function ColorProducts({ colors, selectedColor, setSelectedColor }) {
   return (
     <div className="mb-10">
       <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">
         Choose a color :
       </h3>
-      <ul className="grid w-full gap-6 md:grid-cols-4">
-        {Object.keys(colors).map((color) => {
-          if (colors[color]) {
-            return (
-              <li key={color}>
-                <input
-                  type="radio"
-                  id={`color-${color}`}
-                  name="color"
-                  value={color}
-                  className="hidden peer"
-                  required
-                  onChange={() => setSelectedColor(color)}
+      <ul className="flex space-x-4">
+        {Object.keys(colors).map((color) => (
+          <li key={color} className="relative">
+            <input
+              type="radio"
+              id={`color-${color}`}
+              name="color"
+              value={color}
+              className="hidden peer"
+              onChange={() => setSelectedColor(color)}
+            />
+            <label
+              htmlFor={`color-${color}`}
+              className={`inline-flex items-center justify-between p-2 border rounded-full cursor-pointer
+                ${
+                  color === "white" ? "border-gray-300" : "border-transparent"
+                } peer-checked:ring-2 peer-checked:ring-indigo-500`}
+              style={{ backgroundColor: color }}
+            >
+              <div className="block w-8 h-8 rounded-full" />
+              {selectedColor === color && (
+                <CheckIcon
+                  className="absolute inset-0 w-4 h-4 m-auto"
+                  style={{ color: color === "white" ? "black" : "white" }}
                 />
-                <label
-                  htmlFor={`color-${color}`}
-                  className="inline-flex items-center justify-between p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:text-gray-400 dark:bg-gray-800"
-                >
-                  <div className="block">
-                    <div className="w-full text-lg font-semibold">{color}</div>
-                  </div>
-                </label>
-              </li>
-            );
-          }
-          return null;
-        })}
+              )}
+            </label>
+          </li>
+        ))}
       </ul>
     </div>
   );

@@ -1,17 +1,17 @@
+import { Link } from "react-router-dom";
 import { BestSeller } from "./components/bestSeller.jsx";
 import { Footer } from "./components/footer.jsx";
 import { NavBar } from "./components/navBar.jsx";
 import { NewsLetter } from "./components/newsLetter.jsx";
-import { OverlayBasketProducts } from "./components/overlayBasketProducts.jsx";
+
 export default function App() {
   return (
     <>
       <NavBar />
       <PrincipaleSection />
       <BestSeller />
-      <TypeProdcuts />
+      <TypeProducts />
       <NewsLetter />
-
       <Footer />
     </>
   );
@@ -26,11 +26,11 @@ function PrincipaleSection() {
           {/* Container */}
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-20">
             {/* Title */}
-            <h1 className=" mb-6 max-w-3xl text-4xl font-bold md:mb-10 md:text-6xl lg:mb-8">
+            <h1 className="mb-6 max-w-3xl text-4xl font-bold md:mb-10 md:text-6xl lg:mb-8">
               Nike X FC Barcelona
             </h1>
             {/* Subtitle */}
-            <p className=" mb-8 max-w-3xl text-sm text-gray-500 md:text-base lg:mb-12">
+            <p className="mb-8 max-w-3xl text-sm text-gray-500 md:text-base lg:mb-12">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
               aliquam, purus sit amet luctus venenatis, lectus magna fringilla
               urna
@@ -96,7 +96,7 @@ function PrincipaleSection() {
   );
 }
 
-function TypeProdcuts() {
+function TypeProducts() {
   return (
     <section>
       {/* Container */}
@@ -108,46 +108,45 @@ function TypeProdcuts() {
         </p>
         {/* Content */}
         <div className="mx-auto grid justify-items-stretch gap-4 md:grid-cols-2 lg:gap-10">
-          {/* Item */}
-          <a
-            href="#"
+          {/* Clothing */}
+          <Link
+            to="/products?category=vêtements"
             className="relative flex h-[300px] items-end [grid-area:1/1/3/2] md:h-auto"
           >
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/h_599,c_limit/3ec26b21-5b4c-489e-a01b-3b72c4f07c30/nike-football.jpg"
-              alt=""
+              alt="Clothing"
               className="inline-block h-full w-full rounded-lg object-cover"
             />
             <div className="absolute bottom-5 left-5 flex flex-col justify-center rounded-lg bg-white px-8 py-4">
-              <p className="text-sm font-medium sm:text-xl">T-shirt</p>
+              <p className="text-sm font-medium sm:text-xl">Clothing</p>
               <p className="text-sm sm:text-base">Nike X FC Barcelona</p>
             </div>
-          </a>
-          {/* Item */}
-          <a href="#" className="relative flex h-[300px] items-end">
+          </Link>
+          {/* Shoes */}
+          <Link to="/products?category=chaussures" className="relative flex h-[300px] items-end">
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/w_706,c_limit/e3a4a429-20ce-4345-9e98-a6e845848bd7/nike-football.jpg"
-              alt=""
+              alt="Shoes"
               className="inline-block h-full w-full rounded-lg object-cover"
             />
-
             <div className="absolute bottom-5 left-5 flex flex-col justify-center rounded-lg bg-white px-8 py-4">
               <p className="text-sm font-medium sm:text-xl">Shoes</p>
               <p className="text-sm sm:text-base">Nike</p>
             </div>
-          </a>
-          {/* Item */}
-          <a href="#" className="relative flex h-[300px] items-end">
+          </Link>
+          {/* Accessories */}
+          <Link to="/products?category=accessoires" className="relative flex h-[300px] items-end">
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/h_552,c_limit/5bf9a93f-456b-49a0-b7d4-3e3874f92b0e/nike-basketball.png"
-              alt=""
+              alt="Accessories"
               className="inline-block h-full w-full rounded-lg object-cover"
             />
             <div className="absolute bottom-5 left-5 flex flex-col justify-center rounded-lg bg-white px-8 py-4">
-              <p className="text-sm font-medium sm:text-xl">Accessory</p>
+              <p className="text-sm font-medium sm:text-xl">Accessories</p>
               <p className="text-sm sm:text-base">Nike X FC Barcelona</p>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

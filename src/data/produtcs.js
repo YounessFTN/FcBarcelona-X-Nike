@@ -3,7 +3,7 @@ export const productList = [
     id: 1,
     name: "Air Zoom Pegasus 41 GTX",
     type: "chaussure",
-    price: "$120",
+    price: 120, // Prix en nombre
     colors: { black: true, white: false, red: true },
     image: [
       "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5bc5bc81-9e76-444f-93ce-c7e1446f17af/AIR+MAX+DN.png",
@@ -32,7 +32,7 @@ export const productList = [
     id: 2,
     name: "Nike Air Max",
     type: "chaussure",
-    price: "$150",
+    price: 150, // Prix en nombre
     colors: { black: true, white: true, red: false },
     image: [
       "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5bc5bc81-9e76-444f-93ce-c7e1446f17af/AIR+MAX+DN.png",
@@ -61,7 +61,7 @@ export const productList = [
     id: 3,
     name: "Nike Ultraboost",
     type: "chaussure",
-    price: "$180",
+    price: 180, // Prix en nombre
     colors: { black: true, white: true, red: true },
     image: [
       "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5bc5bc81-9e76-444f-93ce-c7e1446f17af/AIR+MAX+DN.png",
@@ -90,7 +90,7 @@ export const productList = [
     id: 4,
     name: "Nike T-Shirt",
     type: "t-shirt",
-    price: "$130",
+    price: 130, // Prix en nombre
     colors: { black: true, white: true, red: true },
     image: [
       "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5bc5bc81-9e76-444f-93ce-c7e1446f17af/AIR+MAX+DN.png",
@@ -112,7 +112,7 @@ export const productList = [
     id: 5,
     name: "Air Touria",
     type: "chaussure",
-    price: "$180",
+    price: 180, // Prix en nombre
     colors: { black: true, white: true, red: true },
     image: [
       "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/5bc5bc81-9e76-444f-93ce-c7e1446f17af/AIR+MAX+DN.png",

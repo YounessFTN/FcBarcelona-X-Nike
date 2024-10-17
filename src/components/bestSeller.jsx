@@ -1,10 +1,24 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { productList } from "../data/produtcs";
 
 export function BestSeller() {
-  const bestSellingProducts = productList
-    .sort((a, b) => b.sold - a.sold)
-    .slice(0, 4);
+  const [bestSellingProducts, setBestSellingProducts] = useState([]);
+
+  useEffect(() => {
+    fetch("https://my-api-heroku-b0d23b24e1c6.herokuapp.com/produits")
+      .then((response) => response.json())
+      .then((data) => {
+        const mostPopularProducts = data
+          .filter((product) => product.sold) // Filtrer les produits `mostPopular`
+          .sort((a, b) => b.sold - a.sold) // Trier par `sold` pour les meilleurs vendeurs
+          .slice(0, 4); // Limiter à 4 produits
+
+        setBestSellingProducts(mostPopularProducts);
+      })
+      .catch((error) => {
+        console.error("Erreur lors de la récupération des produits :", error);
+      });
+  }, []);
 
   return (
     <div id="best-seller" className="bg-white">
@@ -33,8 +47,8 @@ export function BestSeller() {
 
             return (
               <Link
-                key={product.id}
-                to={`/product/${product.id}`}
+                key={product._id}
+                to={`/product/${product._id}`}
                 className="group block overflow-hidden"
               >
                 <div className="relative h-[350px] sm:h-[450px]">
@@ -61,7 +75,7 @@ export function BestSeller() {
                   </h3>
 
                   <div className="mt-1.5 flex items-center justify-between text-gray-900">
-                    <p className="tracking-wide">{product.price}</p>
+                    <p className="tracking-wide">{product.price} €</p>
 
                     <p className="text-xs uppercase tracking-wide">
                       {availableColors.length} Colors
