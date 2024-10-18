@@ -1,8 +1,8 @@
-import { useContext } from "react"; // Ajout de l'import de useContext
-import { CartContext } from "../context/CartContext"; // Assure-toi que le chemin est correct
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
 
 export function OverlayBasketProducts() {
-  const { basket } = useContext(CartContext); // Récupère le panier depuis le contexte
+  const { basket, removeFromCart } = useContext(CartContext);
 
   const totalPrice = basket.reduce((total, product) => {
     const priceValue = parseFloat(product.price);
@@ -36,12 +36,8 @@ export function OverlayBasketProducts() {
         className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow"
       >
         <ul className="p-4 space-y-4 max-h-60 overflow-y-auto">
-          {/* Ajout des styles de défilement */}
           {basket.map((product, index) => (
-            <li
-              key={`${product.id}-${index}`}
-              className="flex items-center gap-4"
-            >
+            <li key={`${product.uniqueId}-${index}`} className="flex items-center gap-4">
               <img
                 src={product.image[0]}
                 alt={product.name}
@@ -68,19 +64,22 @@ export function OverlayBasketProducts() {
                     <dd className="text-xs text-black">{product.price} €</dd>
                   </div>
                 </dl>
+
+                <button
+                  onClick={() => removeFromCart(product.uniqueId)}
+                  className="text-red-500 text-xs"
+                >
+                  Remove
+                </button>
               </div>
             </li>
           ))}
         </ul>
 
         <div className="card-body">
-          <span className="font-semibold">
-            Subtotal: {totalPrice.toFixed(2)} €
-          </span>
+          <span className="font-semibold">Subtotal: {totalPrice.toFixed(2)} €</span>
           <div className="card-actions">
-            <button className="btn btn-block">
-              View Bag {"(" + basket.length + ")"}
-            </button>
+            <button className="btn btn-block">View Bag {"(" + basket.length + ")"}</button>
           </div>
         </div>
       </div>
