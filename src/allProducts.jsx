@@ -318,9 +318,7 @@ const AllProducts = () => {
                         {product.name}
                       </Link>
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {product.category}
-                    </p>
+                    {/* La catégorie a été supprimée ici */}
                   </div>
                   <p className="text-sm font-medium text-gray-900">
                     {product.price} €
