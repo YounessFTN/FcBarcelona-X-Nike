@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+import { mirage } from "ldrs";
+
+mirage.register();
+
 export const LoadingComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
 
