@@ -1,6 +1,6 @@
 import { AlignLeft, Hexagon } from "lucide-react";
-import { ProductSearchInput } from "./productSearchInput";
 import { Link } from "react-router-dom"; // Import de Link
+import { ProductSearchInput } from "./productSearchInput";
 
 import "../css/navBar.css";
 import { OverlayBasketProducts } from "./overlayBasketProducts";
@@ -23,7 +23,7 @@ function LienNavBar() {
         <Link to="/register">Register</Link>
       </li>
       <li>
-        <Link to="/">item</Link>
+        <Link to="/shop">shop</Link>
       </li>
     </>
   );
