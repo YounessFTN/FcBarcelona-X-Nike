@@ -1,4 +1,5 @@
 import { useContext } from "react"; // Ajout de l'import de useContext
+import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext"; // Assure-toi que le chemin est correct
 
 export function OverlayBasketProducts() {
@@ -78,9 +79,11 @@ export function OverlayBasketProducts() {
             Subtotal: {totalPrice.toFixed(2)} €
           </span>
           <div className="card-actions">
-            <button className="btn btn-block">
-              View Bag {"(" + basket.length + ")"}
-            </button>
+            <Link to="/shop">
+              <button className="btn btn-block">
+                View Bag {"(" + basket.length + ")"}
+              </button>
+            </Link>
           </div>
         </div>
       </div>
