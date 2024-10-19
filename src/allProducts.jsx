@@ -84,7 +84,11 @@ const AllProducts = () => {
   useEffect(() => {
     let filtered = products.filter((product) => {
       const matchCategory = selectedOptions.category ? product.category === selectedOptions.category : true;
-      const matchColor = selectedOptions.color ? product.colors[selectedOptions.color] === true : true;
+      const matchColor = selectedOptions.color 
+        ? product.colors && Array.isArray(product.colors) 
+          ? product.colors.includes(selectedOptions.color) 
+          : false
+        : true;
       const matchSize = selectedSizes.length > 0 ? product.sizes.some((size) => selectedSizes.includes(size)) : true;
       return matchCategory && matchColor && matchSize;
     });
@@ -265,7 +269,6 @@ const AllProducts = () => {
                         {product.name}
                       </Link>
                     </h3>
-                    {/* La catégorie a été supprimée ici */}
                   </div>
                   <p className="text-sm font-medium text-gray-900">{product.price} €</p>
                 </div>
@@ -290,7 +293,7 @@ const AllProducts = () => {
       <div className="fixed inset-0 bg-black bg-opacity-25" />
     </Transition.Child>
 
-    <div className="fixed inset-0 z-40 flex justify-end">  {/* Ajustement ici pour aligner la sidebar à droite */}
+    <div className="fixed inset-0 z-40 flex justify-end">
       <Transition.Child
         as={React.Fragment}
         enter="transition ease-in-out duration-300 transform"
@@ -364,15 +367,15 @@ const AllProducts = () => {
                           )}
                           onClick={() => handleSizeChange(size)}
                         >
-                          {selectedSizes.includes(size) && <CheckIcon className="h-4 w-4 text-white" />}
+                            {selectedSizes.includes(size) && <CheckIcon className="h-4 w-4 text-white" />}
+                          </div>
+                          <label className="ml-3 text-sm text-gray-600">{size}</label>
                         </div>
-                        <label className="ml-3 text-sm text-gray-600">{size}</label>
-                      </div>
-                    ))}
-                  </div>
-                </DisclosurePanel>
-              </Disclosure>
-            )}
+                      ))}
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              )}
           </form>
         </Dialog.Panel>
       </Transition.Child>
