@@ -1,0 +1,98 @@
+/* Conteneur principal de la page Shop */
+.shop-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* Titre principal */
+.shop-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Récapitulatif du panier */
+.cart-summary {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Liste des articles dans le panier */
+.cart-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+/* Chaque produit dans le panier */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Informations sur le produit */
+.cart-product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Nom du produit */
+.cart-product-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Prix du produit */
+.cart-product-price {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Taille du produit (si applicable) */
+.cart-product-size {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Sous-total du panier */
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* Conteneur pour le bouton de caisse */
+.cart-checkout {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Bouton pour passer à la caisse */
+.checkout-button {
+    background-color: #ff5722;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.checkout-button:hover {
+    background-color: #e64a19;
+}

@@ -7,6 +7,7 @@ import { LoadingComponent } from "./components/loadingComponent.jsx"; // Import 
 import { Login } from "./components/login.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
 import { Register } from "./components/register.jsx";
+import { Shop } from "./components/shop.jsx";
 import Home from "./home.jsx";
 import "./index.css";
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />, // Page du compte utilisateur
+  },
+    {
+    path: "/shop",
+    element: <Shop />, // Page du compte utilisateur
   },
   {
     path: "*",
