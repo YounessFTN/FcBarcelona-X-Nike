@@ -100,7 +100,9 @@ const AllProducts = () => {
         ? product.category === selectedOptions.category
         : true;
       const matchColor = selectedOptions.color
-        ? product.colors[selectedOptions.color] === true
+        ? product.colors && Array.isArray(product.colors)
+          ? product.colors.includes(selectedOptions.color)
+          : false
         : true;
       const matchSize =
         selectedSizes.length > 0
@@ -209,7 +211,7 @@ const AllProducts = () => {
 
         <div className="lg:flex lg:space-x-8">
           <aside className="hidden lg:block lg:w-1/4 p-4">
-            <form className="mt-4 sticky top-24">
+            <form className="mt-4">
               {filters.map((section) => (
                 <Disclosure
                   key={section.id}
@@ -318,7 +320,6 @@ const AllProducts = () => {
                         {product.name}
                       </Link>
                     </h3>
-                    {/* La catégorie a été supprimée ici */}
                   </div>
                   <p className="text-sm font-medium text-gray-900">
                     {product.price} €
@@ -350,8 +351,6 @@ const AllProducts = () => {
           </Transition.Child>
 
           <div className="fixed inset-0 z-40 flex justify-end">
-            {" "}
-            {/* Ajustement ici pour aligner la sidebar à droite */}
             <Transition.Child
               as={React.Fragment}
               enter="transition ease-in-out duration-300 transform"

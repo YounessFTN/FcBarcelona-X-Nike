@@ -1,6 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import { CheckIcon } from "@heroicons/react/24/outline";
-import { useParams, Navigate } from "react-router-dom";
+import {
+  CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
+import { useContext, useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { Footer } from "./footer";
 import { NavBar } from "./navBar";
@@ -15,7 +19,7 @@ export function ProductDetail() {
   const [selectedColor, setSelectedColor] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [mainImage, setMainImage] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     fetch(`https://my-api-heroku-b0d23b24e1c6.herokuapp.com/produits/${id}`)
@@ -27,7 +31,6 @@ export function ProductDetail() {
       })
       .then((data) => {
         setProduct(data);
-        setMainImage(data.image[0]); // Définir la première image comme principale
         setLoading(false);
       })
       .catch((error) => {
@@ -58,7 +61,8 @@ export function ProductDetail() {
   const handleClick = () => {
     const requiresSize =
       product.category === "chaussures" || product.category === "vêtements";
-    const hasColors = Array.isArray(product.colors) && product.colors.length > 0;
+    const hasColors =
+      Array.isArray(product.colors) && product.colors.length > 0;
 
     if (requiresSize && !selectedSize) {
       alert("Veuillez sélectionner une taille pour cet article.");
@@ -83,9 +87,25 @@ export function ProductDetail() {
     addToCart(productToAdd);
   };
 
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === product.image.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? product.image.length - 1 : prevIndex - 1
+    );
+  };
+
   const isButtonDisabled =
-    (product.category !== "accessoires" && !selectedSize && product.sizes.length > 0) ||
-    (Array.isArray(product.colors) && product.colors.length > 0 && !selectedColor);
+    (product.category !== "accessoires" &&
+      !selectedSize &&
+      product.sizes.length > 0) ||
+    (Array.isArray(product.colors) &&
+      product.colors.length > 0 &&
+      !selectedColor);
 
   return (
     <>
@@ -93,36 +113,49 @@ export function ProductDetail() {
       <NavBar />
       <section>
         <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
-          <div className="flex flex-col items-start gap-8 sm:gap-20 lg:flex-row-reverse lg:items-start">
-            <div className="flex lg:w-2/3 order-first lg:order-last relative">
-              {/* Conteneur des miniatures */}
-              <div className="flex flex-col space-y-2 absolute top-0 left-2">
+          <div className="flex flex-col items-start gap-8 sm:gap-20 lg:flex-row lg:items-start">
+            <div className="relative w-full lg:w-2/3">
+              {/* Affichage avec flèches sur mobile */}
+              <div className="relative h-[600px] w-full overflow-hidden">
+                <img
+                  src={product.image[currentImageIndex]}
+                  alt={product.name}
+                  className="w-full h-full object-contain"
+                />
+                <button
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 text-gray-600 hover:text-gray-900 lg:hidden"
+                  onClick={prevImage}
+                >
+                  <ChevronLeftIcon className="h-8 w-8" />
+                </button>
+                <button
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 p-2 text-gray-600 hover:text-gray-900 lg:hidden"
+                  onClick={nextImage}
+                >
+                  <ChevronRightIcon className="h-8 w-8" />
+                </button>
+              </div>
+
+              {/* Miniatures sur desktop uniquement */}
+              <div className="hidden lg:flex flex-col space-y-2 absolute top-0 left-2">
                 {product.image.map((image, index) => (
                   <img
                     key={index}
                     src={image}
                     alt={`Thumbnail ${index}`}
                     className={`w-16 h-16 object-cover cursor-pointer border ${
-                      mainImage === image
+                      currentImageIndex === index
                         ? "border-indigo-500"
                         : "border-gray-300"
                     }`}
-                    onClick={() => setMainImage(image)}
+                    onClick={() => setCurrentImageIndex(index)}
                   />
                 ))}
               </div>
-
-              {/* Image principale */}
-              <div className="relative h-[600px] w-full ml-20">
-                <img
-                  src={mainImage}
-                  alt={product.name}
-                  className="w-full h-full object-contain"
-                />
-              </div>
             </div>
 
-            <div className="lg:w-1/3">
+            {/* Conteneur des détails du produit à droite sur desktop */}
+            <div className="lg:w-1/3 lg:ml-16">
               <p className="font-bold max-w-lg text-sm text-red-500 sm:text-base md:mb-10 lg:mb-2">
                 {product.category.toUpperCase()}
               </p>
