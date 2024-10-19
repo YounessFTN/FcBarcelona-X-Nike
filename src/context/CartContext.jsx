@@ -18,11 +18,15 @@ export const CartProvider = ({ children }) => {
       product.category === "chaussures" || product.category === "vêtements";
 
     if (requiresSize && !product.size) {
-      alert("Veuillez sélectionner une taille avant d'ajouter cet article au panier.");
+      alert(
+        "Veuillez sélectionner une taille avant d'ajouter cet article au panier."
+      );
       return;
     }
 
-    const productId = `${product.id}-${product.color || "no-color"}-${product.size || "no-size"}`;
+    const productId = `${product.id}-${product.color || "no-color"}-${
+      product.size || "no-size"
+    }`;
 
     setBasket((prevBasket) => {
       const existingProductIndex = prevBasket.findIndex(
@@ -40,11 +44,24 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    setBasket((prevBasket) => prevBasket.filter((item) => item.uniqueId !== productId));
+    setBasket((prevBasket) =>
+      prevBasket.filter((item) => item.uniqueId !== productId)
+    );
+  };
+
+  // Nouvelle fonction pour mettre à jour la quantité d'un produit
+  const updateQuantity = (uniqueId, quantity) => {
+    setBasket((prevBasket) => {
+      return prevBasket.map((item) =>
+        item.uniqueId === uniqueId ? { ...item, quantity } : item
+      );
+    });
   };
 
   return (
-    <CartContext.Provider value={{ basket, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ basket, addToCart, removeFromCart, updateQuantity }}
+    >
       {children}
     </CartContext.Provider>
   );
