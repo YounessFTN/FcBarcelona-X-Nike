@@ -18,6 +18,13 @@ export default function App() {
 }
 
 function PrincipaleSection() {
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById("our-products");
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <header className="pt-16">
@@ -31,20 +38,20 @@ function PrincipaleSection() {
             </h1>
             {/* Subtitle */}
             <p className="mb-8 max-w-3xl text-sm text-gray-500 md:text-base lg:mb-12">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna
+              Celebrate the unbreakable bond between Nike and FC Barcelona with
+              exclusive collections that blend cutting-edge design and team
+              pride. Elevate your game and showcase your passion for the
+              Blaugrana.
             </p>
             {/* Buttons */}
             <div className="flex items-stretch">
-              <a
-                href="#"
-                className="mr-6 rounded-md bg-black px-8 py-4 text-center font-semibold text-white lg:mr-8"
-              >
-                CTA
-              </a>
-              <a
-                href="#"
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" // Lien vers le logo Nike
+                alt="Nike Logo"
+                className="mr-6 h-12 lg:mr-8" // Ajustement de la taille selon les besoins
+              />
+              <button
+                onClick={scrollToProducts}
                 className="flex items-center justify-center rounded-md border border-solid border-black bg-white px-6 py-3 font-bold"
               >
                 <img
@@ -52,8 +59,8 @@ function PrincipaleSection() {
                   alt=""
                   className="mr-2 max-h-4 w-5"
                 />
-                <p>See Products</p>
-              </a>
+                <p>Discover</p>
+              </button>
             </div>
           </div>
         </div>
@@ -75,12 +82,14 @@ function PrincipaleSection() {
               {/* Divider */}
               <div className="my-6 w-16 border-t border-black"></div>
               <p className="text-sm text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse varius enim in eros elementum tristique. Duis
-                cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
-                commodo diam libero vitae erat. Aenean faucibus nibh et justo
-                cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus
-                tristique posuere.
+                Welcome to <strong>Iberic X</strong>, the exclusive Nike
+                sub-brand dedicated to the passionate fans of FC Barcelona.
+                Explore a unique collection of official products, specially
+                crafted for the most loyal supporters. From stylish apparel to
+                exclusive accessories, <strong>Iberic X</strong> allows you to
+                proudly wear your team’s colors while enjoying Nike’s signature
+                quality and innovation. Join the elite group of Barça fans with
+                products available only here.
               </p>
             </div>
             {/* Image */}
@@ -98,13 +107,13 @@ function PrincipaleSection() {
 
 function TypeProducts() {
   return (
-    <section>
+    <section id="our-products">
       {/* Container */}
       <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
         {/* Title */}
         <h2 className="text-3xl font-bold md:text-5xl">Our Products</h2>
         <p className="msm:text-base mb-8 mt-4 text-sm text-gray-500 md:mb-12 lg:mb-16">
-          Lorem ipsum dolor sit amet elit ut aliquam
+          Discover Our Exclusive Collection
         </p>
         {/* Content */}
         <div className="mx-auto grid justify-items-stretch gap-4 md:grid-cols-2 lg:gap-10">

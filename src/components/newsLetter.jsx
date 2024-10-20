@@ -16,12 +16,10 @@ export function NewsLetter1() {
           <div className="bg-gray-100 p-8 text-center sm:p-10 md:p-16">
             {/* Title */}
             <h2 className="mb-4 text-3xl font-bold md:text-5xl">
-              Join the Flowspark Community
+              Join the <strong>Iberic X </strong> Community
             </h2>
             <p className="mx-auto mb-6 max-w-2xl text-sm text-gray-500 sm:text-base md:mb-10 lg:mb-12">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna
+            Be part of an exclusive group of FC Barcelona supporters, where passion meets innovation. Embrace the latest styles and gear designed to elevate your fan experience.
             </p>
             <div className="mx-auto mb-4 flex max-w-lg justify-center">
               <form
