@@ -1,9 +1,10 @@
+import Spline from "@splinetool/react-spline";
 import { Link } from "react-router-dom";
+import YouTube from "react-youtube";
 import { BestSeller } from "./components/bestSeller.jsx";
 import { Footer } from "./components/footer.jsx";
 import { NavBar } from "./components/navBar.jsx";
 import { NewsLetter } from "./components/newsLetter.jsx";
-
 export default function App() {
   return (
     <>
@@ -18,33 +19,43 @@ export default function App() {
 }
 
 function PrincipaleSection() {
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById("our-products");
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <header className="pt-16">
         {/* Hero top */}
-        <div className="bg-gray-300">
+        <div
+          className="bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://www.fcbarcelona.com/photo-resources/2024/05/27/cd150d48-afc7-4632-83bf-ae2c88187ab9/VO230607A80002.jpg?width=3200&height=1400')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "brightness(0.9)", // Assombrit l'image
+          }}
+        >
           {/* Container */}
           <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-20">
             {/* Title */}
-            <h1 className="mb-6 max-w-3xl text-4xl font-bold md:mb-10 md:text-6xl lg:mb-8">
+            <h1 className="mb-6 max-w-3xl text-4xl text-white font-bold md:mb-10 md:text-6xl lg:mb-8">
               Nike X FC Barcelona
             </h1>
             {/* Subtitle */}
-            <p className="mb-8 max-w-3xl text-sm text-gray-500 md:text-base lg:mb-12">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
-              aliquam, purus sit amet luctus venenatis, lectus magna fringilla
-              urna
+            <p className="mb-8 max-w-3xl text-sm text-gray-200 md:text-base lg:mb-12">
+              Celebrate the unbreakable bond between Nike and FC Barcelona with
+              exclusive collections that blend cutting-edge design and team
+              pride. Elevate your game and showcase your passion for the
+              Blaugrana.
             </p>
             {/* Buttons */}
             <div className="flex items-stretch">
-              <a
-                href="#"
-                className="mr-6 rounded-md bg-black px-8 py-4 text-center font-semibold text-white lg:mr-8"
-              >
-                CTA
-              </a>
-              <a
-                href="#"
+              <button
+                onClick={scrollToProducts}
                 className="flex items-center justify-center rounded-md border border-solid border-black bg-white px-6 py-3 font-bold"
               >
                 <img
@@ -52,8 +63,8 @@ function PrincipaleSection() {
                   alt=""
                   className="mr-2 max-h-4 w-5"
                 />
-                <p>See Products</p>
-              </a>
+                <p>Discover</p>
+              </button>
             </div>
           </div>
         </div>
@@ -75,20 +86,20 @@ function PrincipaleSection() {
               {/* Divider */}
               <div className="my-6 w-16 border-t border-black"></div>
               <p className="text-sm text-gray-500">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse varius enim in eros elementum tristique. Duis
-                cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
-                commodo diam libero vitae erat. Aenean faucibus nibh et justo
-                cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus
-                tristique posuere.
+                Welcome to <strong>Iberic X</strong>, the exclusive Nike
+                sub-brand dedicated to the passionate fans of FC Barcelona.
+                Explore a unique collection of official products, specially
+                crafted for the most loyal supporters. From stylish apparel to
+                exclusive accessories, <strong>Iberic X</strong> allows you to
+                proudly wear your team’s colors while enjoying Nike’s signature
+                quality and innovation. Join the elite group of Barça fans with
+                products available only here.
               </p>
             </div>
             {/* Image */}
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/flowspark-1f3e0.appspot.com/o/Tailspark%20Images%2FPlaceholder%20Image.svg?alt=media&token=375a1ea3-a8b6-4d63-b975-aac8d0174074"
-              alt=""
-              className="relative bottom-0 right-0 mt-12 w-[480px] object-cover lg:absolute lg:mt-0 lg:h-[480px]"
-            />
+            <div className=" rounded-3xl relative bottom-0 right-0 mt-12 w-[480px] object-cover lg:absolute lg:mt-0 lg:h-[480px]">
+              <VideoPlayer />
+            </div>
           </div>
         </div>
       </header>
@@ -98,13 +109,13 @@ function PrincipaleSection() {
 
 function TypeProducts() {
   return (
-    <section>
+    <section id="our-products">
       {/* Container */}
       <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
         {/* Title */}
         <h2 className="text-3xl font-bold md:text-5xl">Our Products</h2>
         <p className="msm:text-base mb-8 mt-4 text-sm text-gray-500 md:mb-12 lg:mb-16">
-          Lorem ipsum dolor sit amet elit ut aliquam
+          Discover Our Exclusive Collection
         </p>
         {/* Content */}
         <div className="mx-auto grid justify-items-stretch gap-4 md:grid-cols-2 lg:gap-10">
@@ -124,7 +135,10 @@ function TypeProducts() {
             </div>
           </Link>
           {/* Shoes */}
-          <Link to="/products?category=chaussures" className="relative flex h-[300px] items-end">
+          <Link
+            to="/products?category=chaussures"
+            className="relative flex h-[300px] items-end"
+          >
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/w_706,c_limit/e3a4a429-20ce-4345-9e98-a6e845848bd7/nike-football.jpg"
               alt="Shoes"
@@ -136,7 +150,10 @@ function TypeProducts() {
             </div>
           </Link>
           {/* Accessories */}
-          <Link to="/products?category=accessoires" className="relative flex h-[300px] items-end">
+          <Link
+            to="/products?category=accessoires"
+            className="relative flex h-[300px] items-end"
+          >
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/h_552,c_limit/5bf9a93f-456b-49a0-b7d4-3e3874f92b0e/nike-basketball.png"
               alt="Accessories"
@@ -152,3 +169,83 @@ function TypeProducts() {
     </section>
   );
 }
+
+function Teste() {
+  return (
+    <>
+      <header>
+        {/* Hero Container */}
+        <div className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-20">
+          {/* Component */}
+          <div className="mx-auto mb-8 w-full max-w-3xl text-center md:mb-12 lg:mb-16">
+            {/* Hero Title */}
+            <h1 className="mb-4 text-4xl font-bold md:text-6xl">
+              The Website You Want Without The Dev Time.
+            </h1>
+            <p className="mx-auto mb-5 max-w-lg text-sm text-gray-500 sm:text-xl md:mb-6 lg:mb-8">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
+              aliquam, purus sit amet luctus venenatis, lectus
+            </p>
+            {/* Hero Button */}
+            <div className="flex items-stretch justify-center">
+              <a
+                href="#"
+                className="mr-5 inline-block rounded-md bg-black px-8 py-4 text-center font-semibold text-white md:mr-6 lg:mr-8"
+              >
+                Get Started
+              </a>
+              <a
+                href="#"
+                className="flex items-center justify-center rounded-md border border-solid border-black px-6 py-3 font-bold text-black"
+              >
+                <img
+                  src="https://assets.website-files.com/6458c625291a94a195e6cf3a/6458c625291a944888e6cf97_PlayCircle%20(1).svg"
+                  alt=""
+                  className="mr-2 inline-block max-h-4 w-5"
+                />
+                <p className="text-sm text-black sm:text-base">Watch Demo</p>
+              </a>
+            </div>
+          </div>
+          {/* Hero Image */}
+          <div className="inline-block max-h-[512px] w-full object-cover">
+            <Spline
+              className="rounded-3xl"
+              scene="https://prod.spline.design/uAAFCaEovC3XvJBf/scene.splinecode"
+            />
+          </div>
+        </div>
+      </header>
+    </>
+  );
+}
+const VideoPlayer = () => {
+  const videoOptions = {
+    playerVars: {
+      autoplay: 1, // Lecture automatique
+      loop: 1, // Boucle
+      playlist: "wwXaZf-Pym0", // ID de la vidéo pour la boucle
+      controls: 0, // Masquer les contrôles
+      showinfo: 0, // Masquer les infos
+      modestbranding: 1, // Branding réduit
+      fs: 0, // Désactiver le mode plein écran
+      rel: 0, // Désactiver les vidéos recommandées
+      cc_load_policy: 0, // Désactiver les sous-titres
+      iv_load_policy: 3, // Désactiver les annotations
+      mute: 1, // Muet pour contourner les restrictions de lecture automatique
+    },
+  };
+
+  return (
+    <div className="w-full h-full rounded-3xl overflow-hidden relative">
+      <YouTube
+        videoId="wwXaZf-Pym0"
+        opts={videoOptions}
+        onReady={(event) => {
+          event.target.playVideo(); // Démarrer la vidéo dès qu'elle est prête
+        }}
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" // Centre la vidéo
+      />
+    </div>
+  );
+};

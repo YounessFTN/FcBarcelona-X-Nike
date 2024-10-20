@@ -3,7 +3,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { Footer } from "./footer";
@@ -156,15 +156,9 @@ export function ProductDetail() {
 
             {/* Conteneur des détails du produit à droite sur desktop */}
             <div className="lg:w-1/3 lg:ml-16">
-              <p className="font-bold max-w-lg text-sm text-red-500 sm:text-base md:mb-10 lg:mb-2">
-                {product.category.toUpperCase()}
-              </p>
               <h1 className="text-xs mb-4 max-w-3xl font-bold md:text-5xl">
                 {product.name}
               </h1>
-              <p className="font-medium mb-3 max-w-lg text-sm text-gray-500 sm:text-l md:mb-10 lg:mb-8">
-                Sold : {product.sold}
-              </p>
               <p className="mb-6 w-full max-w-lg text-sm text-gray-500 sm:text-base md:mb-10 lg:mb-12">
                 {product.description}
               </p>
@@ -177,6 +171,7 @@ export function ProductDetail() {
                   sizes={product.sizes}
                   setSelectedSize={setSelectedSize}
                   selectedSize={selectedSize}
+                  category={product.category}
                 />
               )}
 
@@ -224,14 +219,20 @@ export function ProductDetail() {
   );
 }
 
-function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
+function SizeProducts({ sizes, setSelectedSize, selectedSize, category }) {
+  // Définir les tailles par défaut en fonction de la catégorie du produit
+  const defaultSizes =
+    category === "chaussures"
+      ? ["38", "39", "40", "41", "42", "43", "44", "45"]
+      : ["XS", "S", "M", "L", "XL"];
+
   return (
     <div className="mb-10">
       <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">
         Available Sizes :
       </h3>
       <ul className="grid w-fit gap-2 grid-cols-5">
-        {sizes.map((size) => (
+        {defaultSizes.map((size) => (
           <li key={size}>
             <input
               type="radio"
@@ -240,12 +241,17 @@ function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
               value={size}
               className="hidden peer"
               onChange={() => setSelectedSize(size)}
+              disabled={!sizes.includes(size)} // Désactiver si la taille n'est pas dans l'API
             />
             <label
               htmlFor={`size-${size}`}
-              className={`inline-flex items-center justify-between p-5 border border-gray-200 rounded-lg cursor-pointer ${
+              className={`inline-flex items-center justify-between p-5 border border-gray-200 rounded-lg ${
                 selectedSize === size ? "text-red-500" : "text-gray-900"
-              }`}
+              } ${
+                !sizes.includes(size)
+                  ? "bg-gray-300 cursor-not-allowed text-gray-400" // Grisé sans hover
+                  : "hover:bg-gray-100 cursor-pointer"
+              }`} // Supprime le hover et change le style des cases désactivées
             >
               <div className="block">
                 <div className="w-full text-lg font-semibold">{size}</div>

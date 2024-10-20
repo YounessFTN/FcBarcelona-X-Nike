@@ -211,7 +211,7 @@ const AllProducts = () => {
 
         <div className="lg:flex lg:space-x-8">
           <aside className="hidden lg:block lg:w-1/4 p-4">
-            <form className="mt-4">
+            <form className="sticky top-24 mt-4">
               {filters.map((section) => (
                 <Disclosure
                   key={section.id}
