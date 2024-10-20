@@ -147,15 +147,9 @@ export function ProductDetail() {
 
             {/* Conteneur des détails du produit à droite sur desktop */}
             <div className="lg:w-1/3 lg:ml-16">
-              <p className="font-bold max-w-lg text-sm text-red-500 sm:text-base md:mb-10 lg:mb-2">
-                {product.category.toUpperCase()}
-              </p>
               <h1 className="text-xs mb-4 max-w-3xl font-bold md:text-5xl">
                 {product.name}
               </h1>
-              <p className="font-medium mb-3 max-w-lg text-sm text-gray-500 sm:text-l md:mb-10 lg:mb-8">
-                Sold : {product.sold}
-              </p>
               <p className="mb-6 w-full max-w-lg text-sm text-gray-500 sm:text-base md:mb-10 lg:mb-12">
                 {product.description}
               </p>
@@ -170,7 +164,6 @@ export function ProductDetail() {
               selectedSize={selectedSize}
               category={product.category}
             />
-            
               )}
 
               <ColorProducts
@@ -261,8 +254,6 @@ function SizeProducts({ sizes, setSelectedSize, selectedSize, category }) {
     </div>
   );
 }
-
-
 
 function ColorProducts({ colors, selectedColor, setSelectedColor }) {
   if (!colors || colors.length === 0) {
