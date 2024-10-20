@@ -164,11 +164,13 @@ export function ProductDetail() {
               </p>
 
               {product.sizes.length > 0 && (
-                <SizeProducts
-                  sizes={product.sizes}
-                  setSelectedSize={setSelectedSize}
-                  selectedSize={selectedSize}
-                />
+              <SizeProducts
+              sizes={product.sizes}
+              setSelectedSize={setSelectedSize}
+              selectedSize={selectedSize}
+              category={product.category}
+            />
+            
               )}
 
               <ColorProducts
@@ -215,14 +217,20 @@ export function ProductDetail() {
   );
 }
 
-function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
+function SizeProducts({ sizes, setSelectedSize, selectedSize, category }) {
+  // Définir les tailles par défaut en fonction de la catégorie du produit
+  const defaultSizes =
+    category === "chaussures"
+      ? ["38", "39", "40", "41", "42", "43", "44", "45"]
+      : ["XS", "S", "M", "L", "XL"];
+
   return (
     <div className="mb-10">
       <h3 className="mb-5 text-lg font-medium text-gray-900 dark:text-white">
         Available Sizes :
       </h3>
       <ul className="grid w-fit gap-2 grid-cols-5">
-        {sizes.map((size) => (
+        {defaultSizes.map((size) => (
           <li key={size}>
             <input
               type="radio"
@@ -231,12 +239,17 @@ function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
               value={size}
               className="hidden peer"
               onChange={() => setSelectedSize(size)}
+              disabled={!sizes.includes(size)} // Désactiver si la taille n'est pas dans l'API
             />
             <label
               htmlFor={`size-${size}`}
-              className={`inline-flex items-center justify-between p-5 border border-gray-200 rounded-lg cursor-pointer ${
+              className={`inline-flex items-center justify-between p-5 border border-gray-200 rounded-lg ${
                 selectedSize === size ? "text-red-500" : "text-gray-900"
-              }`}
+              } ${
+                !sizes.includes(size)
+                  ? "bg-gray-300 cursor-not-allowed text-gray-400" // Grisé sans hover
+                  : "hover:bg-gray-100 cursor-pointer"
+              }`} // Supprime le hover et change le style des cases désactivées
             >
               <div className="block">
                 <div className="w-full text-lg font-semibold">{size}</div>
@@ -248,6 +261,8 @@ function SizeProducts({ sizes, setSelectedSize, selectedSize }) {
     </div>
   );
 }
+
+
 
 function ColorProducts({ colors, selectedColor, setSelectedColor }) {
   if (!colors || colors.length === 0) {
