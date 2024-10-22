@@ -2,11 +2,16 @@ import { useEffect, useState } from "react"; // Importer les hooks useState et u
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AllProducts from "./allProducts.jsx";
 import { NotFound } from "./components/404.jsx";
+import { Footer } from "./components/footer.jsx";
+import { NavBar } from "./components/navBar.jsx";
+
 import { Account } from "./components/account.jsx";
 import { LoadingComponent } from "./components/loadingComponent.jsx"; // Import du composant Loading
 import { Login } from "./components/login.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
 import { Register } from "./components/register.jsx";
+import { Sizes3Dqrcode } from "./components/Sizes3D.jsx";
+
 import Home from "./home.jsx";
 import "./index.css";
 import { Shop } from "./Shop.jsx";
@@ -40,6 +45,16 @@ const router = createBrowserRouter([
   {
     path: "/shop",
     element: <Shop />, // Page du compte utilisateur
+  },
+  {
+    path: "/try-your-size",
+    element: (
+      <>
+        <NavBar />
+        <Sizes3Dqrcode />
+        <Footer />
+      </>
+    ),
   },
   {
     path: "*",
