@@ -46,7 +46,10 @@ function ProductsShop() {
       );
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json(); // Récupérer le corps de la réponse pour le débogage
+        throw new Error(
+          `HTTP error! Status: ${response.status}, Message: ${errorData.error}`
+        );
       }
 
       const session = await response.json();

@@ -17,18 +17,25 @@ app.post("/create-checkout-session", async (req, res) => {
   try {
     const { items } = req.body;
 
+    // Log des données reçues
+    console.log("Received items:", items);
+
     // Préparation des lignes d'articles pour la session de paiement
-    const lineItems = items.map((item) => ({
-      price_data: {
-        currency: "usd", // Change cela selon ta devise
-        product_data: {
-          name: item.name,
-          images: [item.image],
+    const lineItems = items.map((item) => {
+      const unitAmount = Math.round(item.price * 100); // Convertir le prix en centimes et s'assurer que c'est un entier
+
+      return {
+        price_data: {
+          currency: "usd", // Change cela selon ta devise
+          product_data: {
+            name: item.name,
+            images: [item.image],
+          },
+          unit_amount: unitAmount, // Utiliser l'entier arrondi
         },
-        unit_amount: item.price * 100,
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity,
+      };
+    });
 
     // Création de la session de paiement
     const session = await stripe.checkout.sessions.create({
