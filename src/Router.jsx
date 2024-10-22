@@ -16,6 +16,7 @@ import Home from "./home.jsx";
 import "./index.css";
 import { Shop } from "./Shop.jsx";
 import Confirmation from "./Stripe/confirmation.jsx";
+import OrderError from "./Stripe/OrderError.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
         <NeedHelp />
       </>
     ),
+  },
+  {
+    path: "/error",
+    element: <OrderError />,
   },
   {
     path: "/try-your-size",
