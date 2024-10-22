@@ -7,6 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Key Stripe
+.env
+
+# Node modules et build output
 node_modules
 dist
 dist-ssr

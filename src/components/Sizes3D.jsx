@@ -1,3 +1,5 @@
+import Qrcode from "../images/qrCode-simple.png"; // Import correction
+
 export function Sizes3Dqrcode() {
   return (
     <section className="py-16">
@@ -7,24 +9,24 @@ export function Sizes3Dqrcode() {
         <div className="grid items-center gap-8 sm:gap-20 lg:grid-cols-2">
           <div>
             <h2 className="mb-4 max-w-2xl text-3xl font-bold md:text-5xl">
-              Trouvez la taille parfaite en un scan !
+              Find the perfect size with just one scan!
             </h2>
             <p className="mb-6 max-w-lg text-sm text-gray-500 sm:text-base lg:mb-12">
-              Scannez le QR code et comparez vos pieds avec nos chaussures en 3D
-              pour un ajustement garanti.
+              Scan the QR code and compare your feet with our 3D shoes for a
+              guaranteed fit.
             </p>
             <a
-              href="#"
-              className="inline-block items-center bg-black px-6 py-3 text-center font-semibold text-white"
+              href="https://player.onirix.com/projects/5c9903444d5f4570895dd0ccfa4e1aa4/webar?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQ0OTU4LCJwcm9qZWN0SWQiOjkxNjAzLCJyb2xlIjozLCJpYXQiOjE3Mjk1MDA2Nzd9.WVEFAnKXl69JoD3vdlZdvnuxK0AvJbGkWJSHmZqJ2Rs&launchpad=true"
+              className="inline-block bg-black px-6 py-3 text-center font-semibold text-white"
             >
-              Essayez maintenant
+              Try it now
             </a>
           </div>
           <div>
             <img
-              src="/path/to/your-qrcode.png"
-              alt="QR code pour la scène 3D"
-              className="mx-auto inline-block h-full w-full max-w-2xl"
+              src={Qrcode}
+              alt="QR code for the 3D scene"
+              className="mx-auto h-full w-full max-w-2xl"
             />
           </div>
         </div>
