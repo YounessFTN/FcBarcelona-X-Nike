@@ -36,7 +36,7 @@ function PrincipaleSection() {
             backgroundImage: `url('https://www.fcbarcelona.com/photo-resources/2024/05/27/cd150d48-afc7-4632-83bf-ae2c88187ab9/VO230607A80002.jpg?width=3200&height=1400')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            filter: "brightness(0.9)", // Assombrit l'image
+            filter: "brightness(0.8)", // Assombrit l'image
           }}
         >
           {/* Container */}
@@ -46,7 +46,7 @@ function PrincipaleSection() {
               Nike X FC Barcelona
             </h1>
             {/* Subtitle */}
-            <p className="mb-8 max-w-3xl text-sm text-gray-200 md:text-base lg:mb-12">
+            <p className="mb-8 max-w-3xl text-sm text-white md:text-base lg:mb-12">
               Celebrate the unbreakable bond between Nike and FC Barcelona with
               exclusive collections that blend cutting-edge design and team
               pride. Elevate your game and showcase your passion for the
@@ -179,9 +179,9 @@ function Teste() {
           {/* Component */}
           <div className="mx-auto mb-8 w-full max-w-3xl text-center md:mb-12 lg:mb-16">
             {/* Hero Title */}
-            <h1 className="mb-4 text-4xl font-bold md:text-6xl">
+            <h2 className="mb-4 text-4xl font-bold md:text-6xl">
               The Website You Want Without The Dev Time.
-            </h1>
+            </h2>
             <p className="mx-auto mb-5 max-w-lg text-sm text-gray-500 sm:text-xl md:mb-6 lg:mb-8">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit ut
               aliquam, purus sit amet luctus venenatis, lectus

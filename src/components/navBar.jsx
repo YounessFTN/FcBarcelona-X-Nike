@@ -16,6 +16,24 @@ function LienNavBar() {
       <li>
         <Link to="/products">Products</Link> {/* Changement ici */}
       </li>
+
+      <li>
+        <Link to="/shop">Cart</Link>
+      </li>
+      <li>
+        <Link to="/try-your-size">Try your size</Link>
+      </li>
+    </>
+  );
+}
+function LienACount() {
+  return (
+    <>
+      <li>
+        <Link className="justify-between">
+          Profile<span className="badge">New</span>
+        </Link>
+      </li>
       <li>
         <Link to="/login">Login</Link>
       </li>
@@ -23,12 +41,11 @@ function LienNavBar() {
         <Link to="/register">Register</Link>
       </li>
       <li>
-        <Link to="/shop">shop</Link>
+        <Link to="/shop">Your cart</Link>
       </li>
     </>
   );
 }
-
 export function NavBar() {
   return <NavBar1 />;
 }
@@ -95,17 +112,7 @@ function NavBar1() {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li>
-              <a className="justify-between">
-                Profile<span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
+            <LienACount />
           </ul>
         </div>
       </div>
