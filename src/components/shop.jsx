@@ -2,24 +2,55 @@ import { useContext } from "react";
 import { CartContext } from "../context/CartContext"; // Import du contexte
 import { NavBar } from "./NavBar"; // Import de la barre de navigation
 import "../css/Shop.css"; // Import du fichier CSS pour styliser le composant
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useState } from "react";
 
-// Composant Shop pour afficher la liste des produits
+
+const stripePromise = loadStripe("pk_test_51Q7Yld2LI8YUtc2bYqnjeCB4r8eTXirxzMKsEJtXzMBNzSrEsGmnvAFBt8mW2EAIbUdodTWA8KGquAxskQKnhA3200gpHazfRl"); // Remplace par ta clé publique Stripe
+
+
+
 export function Shop() {
-  const { basket, addToCart } = useContext(CartContext); // Récupère le panier et la fonction addToCart depuis CartContext
+  const { basket } = useContext(CartContext);
+  const [loading, setLoading] = useState(false);
 
-  // Calcul du sous-total
-  const subtotal = basket.reduce((acc, product) => acc + product.price, 0);
+  const calculateSubtotal = () => {
+    return basket.reduce((acc, product) => acc + product.price, 0);
+  };
 
-  // Affiche le panier dans la console pour débogage
-  console.log("Panier actuel dans Shop :", basket);
+  const handleCheckout = async () => {
+    setLoading(true);
+    const stripe = await stripePromise;
+
+    // Envoie les articles du panier au backend pour créer la session de paiement
+    const response = await fetch("http://localhost:4242/create-checkout-session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ basket }), // Envoie le panier au serveur
+    });
+
+    const session = await response.json();
+
+    // Redirige l'utilisateur vers le Checkout Stripe
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.error(result.error);
+    }
+
+    setLoading(false);
+  };
 
   return (
     <>
       <NavBar />
       <div className="shop-container">
         <h1>Récapitulatif de votre panier</h1>
-
-        {/* Affichage des informations du panier */}
         <div className="cart-summary">
           {basket.length > 0 ? (
             <>
@@ -40,16 +71,19 @@ export function Shop() {
                   </li>
                 ))}
               </ul>
-
-              {/* Sous-total */}
               <div className="cart-total">
                 <span>Sous-total :</span>
-                <span>{subtotal.toFixed(2)} €</span>
+                <span>{calculateSubtotal().toFixed(2)} €</span>
               </div>
 
-              {/* Bouton pour passer à la caisse */}
               <div className="cart-checkout">
-                <button className="checkout-button">Passer à la caisse</button>
+                <button
+                  className="checkout-button"
+                  onClick={handleCheckout}
+                  disabled={loading}
+                >
+                  {loading ? "Chargement..." : "Passer à la caisse"}
+                </button>
               </div>
             </>
           ) : (

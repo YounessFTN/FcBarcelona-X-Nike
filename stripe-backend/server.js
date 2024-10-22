@@ -3,16 +3,22 @@ const fs = require('fs');
 const express = require("express");
 const cors = require("cors");
 
-
 // Lecture de la clé API Stripe à partir du fichier KeyApi.txt (vérifie bien l'orthographe du nom du fichier)
 let keyapi = fs.readFileSync('KeyApi.txt', 'utf8');
 console.log("Clé API récupérée : ", keyapi);  // Vérification de la clé API
 
-const Stripe = require("stripe"); 
+const Stripe = require("stripe");
 const stripe = Stripe(keyapi);  // Initialisation de Stripe avec la clé API
 
 const app = express();
-app.use(cors());  // Autorise les requêtes depuis d'autres domaines (comme ton frontend)
+
+// Configuration de CORS pour autoriser toutes les origines
+app.use(cors({
+  origin: '*',  // Autorise toutes les origines
+  methods: ['GET', 'POST'],  // Méthodes HTTP autorisées
+  allowedHeaders: ['Content-Type'],  // En-têtes spécifiques autorisés
+}));
+
 app.use(express.json());  // Pour traiter les requêtes JSON
 
 // Route pour créer une session de paiement Stripe
@@ -34,7 +40,7 @@ app.post("/create-checkout-session", async (req, res) => {
         quantity: 1,
       })),
       mode: 'payment',
-      success_url: 'http://localhost:3000/success',  // Redirige ici en cas de succès
+      success_url: 'http://localhost:5177/success?session_id={CHECKOUT_SESSION_ID}',  // Redirige ici en cas de succès
       cancel_url: 'http://localhost:3000/cancel',    // Redirige ici si l'utilisateur annule
     });
 

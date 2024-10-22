@@ -99,12 +99,14 @@ const AllProducts = () => {
       } else if (sortCriteria === 'priceHighToLow') {
         return b.price - a.price;
       } else if (sortCriteria === 'mostPopular') {
-        return b.mostPopular - a.mostPopular;
+        return b.sold - a.sold; // Tri par nombre de produits vendus
       } else if (sortCriteria === 'latest') {
-        return b.latest - a.latest;
+        return new Date(b.date_added) - new Date(a.date_added); // Tri par date ajoutée
       }
       return 0;
     });
+    
+    
 
     setFilteredProducts(filtered);
   }, [selectedOptions, selectedSizes, products, sortCriteria]);
