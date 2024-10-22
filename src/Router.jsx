@@ -7,9 +7,11 @@ import { Footer } from "./components/footer.jsx";
 import { LoadingComponent } from "./components/loadingComponent.jsx";
 import { Login } from "./components/login.jsx";
 import { NavBar } from "./components/navBar.jsx";
+import { NeedHelp } from "./components/needHelp.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
 import { Register } from "./components/register.jsx";
 import { Sizes3Dqrcode } from "./components/Sizes3D.jsx";
+
 import Home from "./home.jsx";
 import "./index.css";
 import { Shop } from "./Shop.jsx";
@@ -24,6 +26,16 @@ const router = createBrowserRouter([
   { path: "/register", element: <Register /> },
   { path: "/shop", element: <Shop /> },
   { path: "/confirmation", element: <Confirmation /> },
+  {
+    path: "/help",
+    element: (
+      <>
+        {" "}
+        <NavBar />
+        <NeedHelp />
+      </>
+    ),
+  },
   {
     path: "/try-your-size",
     element: (

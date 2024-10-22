@@ -16,12 +16,14 @@ function LienNavBar() {
       <li>
         <Link to="/products">Products</Link> {/* Changement ici */}
       </li>
-
       <li>
         <Link to="/shop">Cart</Link>
       </li>
       <li>
         <Link to="/try-your-size">Try your size</Link>
+      </li>{" "}
+      <li>
+        <Link to="/help">Need help</Link>
       </li>
     </>
   );
