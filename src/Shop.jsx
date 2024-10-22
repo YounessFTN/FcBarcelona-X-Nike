@@ -1,3 +1,4 @@
+import { loadStripe } from "@stripe/stripe-js"; // Import de la fonction loadStripe
 import { CircleX, Minus, Plus } from "lucide-react"; // Import des icônes
 import { useContext, useState } from "react"; // Assurez-vous que useState est importé
 import { Footer } from "./components/footer";
@@ -14,6 +15,8 @@ export function Shop() {
   );
 }
 
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+
 function ProductsShop() {
   const { basket, removeFromCart } = useContext(CartContext);
 
@@ -21,6 +24,38 @@ function ProductsShop() {
     const priceValue = parseFloat(product.price);
     return total + priceValue * product.quantity;
   }, 0);
+
+  const handleCheckout = async () => {
+    const items = basket.map((product) => ({
+      name: product.name,
+      image: product.image[0], // Vérifie que c'est un tableau avec au moins un élément
+      price: product.price,
+      quantity: product.quantity,
+    }));
+
+    try {
+      const response = await fetch(
+        "http://localhost:4000/create-checkout-session",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ items }), // Envoie les articles au serveur
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const session = await response.json();
+      const stripe = await stripePromise; // Utilise la promesse de Stripe
+      await stripe.redirectToCheckout({ sessionId: session.id });
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+    }
+  };
 
   return (
     <section className="py-16 bg-gray-50">
@@ -57,12 +92,12 @@ function ProductsShop() {
                 </div>
 
                 <div className="flex justify-end">
-                  <a
-                    href="#"
+                  <button
+                    onClick={handleCheckout}
                     className="block rounded-lg bg-blue-600 px-5 py-3 text-sm text-white transition hover:bg-blue-500"
                   >
                     Checkout
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

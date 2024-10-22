@@ -1,51 +1,29 @@
-import { useEffect, useState } from "react"; // Importer les hooks useState et useEffect
+import { useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AllProducts from "./allProducts.jsx";
 import { NotFound } from "./components/404.jsx";
-import { Footer } from "./components/footer.jsx";
-import { NavBar } from "./components/navBar.jsx";
-
 import { Account } from "./components/account.jsx";
-import { LoadingComponent } from "./components/loadingComponent.jsx"; // Import du composant Loading
+import { Footer } from "./components/footer.jsx";
+import { LoadingComponent } from "./components/loadingComponent.jsx";
 import { Login } from "./components/login.jsx";
+import { NavBar } from "./components/navBar.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
 import { Register } from "./components/register.jsx";
 import { Sizes3Dqrcode } from "./components/Sizes3D.jsx";
-
 import Home from "./home.jsx";
 import "./index.css";
 import { Shop } from "./Shop.jsx";
+import Confirmation from "./Stripe/confirmation.jsx";
 
-// Configuration du routeur
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />, // Home page
-  },
-  {
-    path: "/products",
-    element: <AllProducts />, // Page des produits
-  },
-  {
-    path: "/product/:id",
-    element: <ProductDetail />, // Détails du produit
-  },
-  {
-    path: "/account",
-    element: <Account />, // Page du compte utilisateur
-  },
-  {
-    path: "/login",
-    element: <Login />, // Page du compte utilisateur
-  },
-  {
-    path: "/register",
-    element: <Register />, // Page du compte utilisateur
-  },
-  {
-    path: "/shop",
-    element: <Shop />, // Page du compte utilisateur
-  },
+  { path: "/", element: <Home /> },
+  { path: "/products", element: <AllProducts /> },
+  { path: "/product/:id", element: <ProductDetail /> },
+  { path: "/account", element: <Account /> },
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+  { path: "/shop", element: <Shop /> },
+  { path: "/confirmation", element: <Confirmation /> },
   {
     path: "/try-your-size",
     element: (
@@ -56,10 +34,7 @@ const router = createBrowserRouter([
       </>
     ),
   },
-  {
-    path: "*",
-    element: <NotFound />, // Page 404 pour les routes non trouvées
-  },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default function Router() {
@@ -68,7 +43,7 @@ export default function Router() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // Simule le chargement pendant 2 secondes
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);

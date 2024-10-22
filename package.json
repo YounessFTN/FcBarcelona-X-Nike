@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node src/Stripe/server.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -14,7 +15,13 @@
     "@heroicons/react": "^2.1.5",
     "@material-tailwind/react": "^2.1.10",
     "@splinetool/react-spline": "^4.0.0",
+    "@stripe/react-stripe-js": "^2.8.1",
+    "@stripe/stripe-js": "^4.9.0",
     "@tailwindcss/forms": "^0.5.9",
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "gsap": "^3.12.5",
     "ldrs": "^1.0.2",
     "lenis": "^1.1.13",
@@ -23,7 +30,8 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-youtube": "^10.1.0",
-    "spline": "^0.0.0"
+    "spline": "^0.0.0",
+    "stripe": "^17.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
