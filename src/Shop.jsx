@@ -1,6 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { CircleX, Minus, Plus, ShoppingBag } from "lucide-react";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { Footer } from "./components/footer";
 import { NavBar } from "./components/navBar";
 import { CartContext } from "./context/CartContext";
@@ -22,18 +22,26 @@ function ProductsShop() {
 
   const totalPrice = basket.reduce((total, product) => {
     const priceValue = parseFloat(product.price);
-    return total + priceValue * product.quantity;
+    const quantity = parseInt(product.quantity) || 0;
+    return total + priceValue * quantity;
   }, 0);
 
   const handleCheckout = async () => {
-    const items = basket.map((product) => ({
-      name: product.name,
-      image: product.image[0],
-      price: product.price,
-      quantity: product.quantity,
-    }));
-
     try {
+      const validItems = basket.filter((product) => product.quantity > 0);
+
+      if (validItems.length === 0) {
+        alert("Your cart is empty or all items have 0 quantity");
+        return;
+      }
+
+      const items = validItems.map((product) => ({
+        name: product.name,
+        image: product.image[0],
+        price: parseFloat(product.price),
+        quantity: parseInt(product.quantity),
+      }));
+
       const response = await fetch(
         "http://localhost:4000/create-checkout-session",
         {
@@ -43,18 +51,34 @@ function ProductsShop() {
         }
       );
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          `HTTP error! Status: ${response.status}, Message: ${errorData.error}`
-        );
+        throw new Error(data.message || "Payment error occurred");
       }
 
-      const session = await response.json();
+      // Vérifier si nous avons une URL de redirection directe
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+
+      // Sinon, utiliser sessionId
+      if (!data.sessionId) {
+        throw new Error("No session ID received from server");
+      }
+
       const stripe = await stripePromise;
-      await stripe.redirectToCheckout({ sessionId: session.id });
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId, // Utilisez data.sessionId au lieu de data.id
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
     } catch (error) {
-      console.error("Error creating checkout session:", error);
+      console.error("Checkout error:", error);
+      alert(error.message || "An error occurred during checkout");
     }
   };
 
@@ -91,7 +115,7 @@ function ProductsShop() {
 
               <div className="mt-12 border-t border-gray-200 pt-8">
                 <div className="rounded-lg bg-gray-50 p-6 shadow-sm">
-                  <div className="flow-root">
+                  <div className=" flow-root">
                     <div className="flex justify-between text-lg font-medium">
                       <p className="text-gray-900">Subtotal</p>
                       <p className="text-gray-900">${totalPrice.toFixed(2)}</p>
@@ -194,21 +218,21 @@ function Input({ quantity, uniqueId }) {
   const { updateQuantity } = useContext(CartContext);
   const [count, setCount] = useState(quantity);
 
-  const increment = () => {
+  const increment = useCallback(() => {
     if (count < 9) {
       const newCount = count + 1;
       setCount(newCount);
       updateQuantity(uniqueId, newCount);
     }
-  };
+  }, [count, uniqueId, updateQuantity]);
 
-  const decrement = () => {
+  const decrement = useCallback(() => {
     if (count > 0) {
       const newCount = count - 1;
       setCount(newCount);
       updateQuantity(uniqueId, newCount);
     }
-  };
+  }, [count, uniqueId, updateQuantity]);
 
   return (
     <div className="inline-flex items-center rounded-lg border border-gray-200">
@@ -224,7 +248,7 @@ function Input({ quantity, uniqueId }) {
         id={`quantity-input-${uniqueId}`}
         value={count}
         readOnly
-        className="h-10 w-12 border-0 bg-white text-center text-sm text-gray-900 focus:outline-none"
+        className="h- 10 w-12 border-0 bg-white text-center text-sm text-gray-900 focus:outline-none"
       />
       <button
         type="button"
