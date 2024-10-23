@@ -1,6 +1,32 @@
 # FcBarcelona X Nike
 
-sonia tu dois ajouter une description de la marque
+Iberic X is a fictional e-commerce website that offers exclusive FC Barcelona merchandise in collaboration with Nike. The site is designed to provide a seamless shopping experience, combining performance with urban fashion. Users can browse a wide selection of products, including clothing, footwear, and accessories, tailored for FC Barcelona fans who value style and quality.
+
+## Features 
+
+Home Page: A clean and modern landing page with a 3D element to enhance the user experience.
+
+Product Catalog: An "All Products" page displaying the full range of products, with filtering and sorting options based on categories, size, and product popularity.
+
+Product Details: Each product has a detailed page with multiple images, including unavailable size indicators and comprehensive product descriptions.
+
+Shopping Cart: A functional shopping cart that allows users to add, view, and manage items. A modal opens to preview items, with a "View Bag" button for more detailed cart         management.
+
+Search Functionality: A search bar integrated into the navigation allows users to quickly find specific products. On mobile, a search icon enhances the experience.
+
+Payment Integration: Simulated payment system using Stripe's test API, allowing users to complete mock transactions.
+
+Order Confirmation: A confirmation page that thanks users after their purchase.
+
+User Login: Secure login system enabling users to create accounts and manage their purchases.
+
+## Technologies Used
+
+React & Vite: For building the user interface with reusable components and ensuring fast build times.
+
+Tailwind CSS: For creating a modern and responsive design.
+
+Stripe API: Integrated to manage the payment system, allowing secure and testable transactions.
 
 ## Description
 
