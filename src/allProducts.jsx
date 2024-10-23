@@ -117,9 +117,9 @@ const AllProducts = () => {
       } else if (sortCriteria === "priceHighToLow") {
         return b.price - a.price;
       } else if (sortCriteria === "mostPopular") {
-        return b.mostPopular - a.mostPopular;
+        return b.sold - a.sold; // Tri par nombre de produits vendus
       } else if (sortCriteria === "latest") {
-        return b.latest - a.latest;
+        return new Date(b.date_added) - new Date(a.date_added); // Tri par date ajoutée
       }
       return 0;
     });
@@ -211,7 +211,7 @@ const AllProducts = () => {
 
         <div className="lg:flex lg:space-x-8">
           <aside className="hidden lg:block lg:w-1/4 p-4">
-            <form className="sticky top-24 mt-4">
+            <form className="sticky top-20 mt-4">
               {filters.map((section) => (
                 <Disclosure
                   key={section.id}
