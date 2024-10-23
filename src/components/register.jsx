@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import du hook pour la navigation
+import { useNavigate } from "react-router-dom"; // Import the navigation hook
 import { NavBar } from "./navBar";
 
 export const Register = () => {
@@ -7,7 +7,7 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const [userData, setUserData] = useState([]); // Pour stocker les utilisateurs
+  const [userData, setUserData] = useState([]); // To store users
 
   const User = {
     name: name,
@@ -16,25 +16,13 @@ export const Register = () => {
     number: number,
   };
 
-  const navigate = useNavigate(); // Hook pour la navigation
+  const navigate = useNavigate(); // Navigation hook
 
   function SaveData() {
-    const existingData = JSON.parse(localStorage.getItem("users")) || []; // Récupérer les données existantes
-    existingData.push(User); // Ajouter le nouvel utilisateur
-    localStorage.setItem("users", JSON.stringify(existingData)); // Sauvegarder les données
-    setUserData(existingData); // Mettre à jour l'état local
-  }
-
-  function LoadData() {
-    const savedData = JSON.parse(localStorage.getItem("users")) || [];
-    return savedData.map((user, index) => (
-      <div key={index}>
-        <p>Nom : {user.name}</p>
-        <p>Email : {user.email}</p>
-        <p>Numéro : {user.number}</p>
-        <hr />
-      </div>
-    ));
+    const existingData = JSON.parse(localStorage.getItem("users")) || []; // Retrieve existing data
+    existingData.push(User); // Add the new user
+    localStorage.setItem("users", JSON.stringify(existingData)); // Save the data
+    setUserData(existingData); // Update local state
   }
 
   const handleSubmit = (event) => {
@@ -44,11 +32,11 @@ export const Register = () => {
     setPassword("");
     setName("");
     setNumber("");
-    console.log(User); // Afficher les données de l'utilisateur dans la console
+    console.log(User); // Log user data to the console
   };
 
   const handleLoginClick = () => {
-    navigate("/login"); // Navigation vers la page de connexion
+    navigate("/login"); // Navigate to the login page
   };
 
   return (
@@ -64,11 +52,10 @@ export const Register = () => {
             />
             <div className="hidden lg:relative lg:block lg:p-12">
               <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                Bienvenue chez Squid 🦑
+                Join the FC Barcelona Family!
               </h2>
               <p className="mt-4 leading-relaxed text-white/90">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.
+                Sign up now to explore exclusive merchandise and special offers.
               </p>
             </div>
           </section>
@@ -84,14 +71,14 @@ export const Register = () => {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Nom
+                    Name
                   </label>
                   <input
                     type="text"
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="mt-1 w-full rounded-md  bg-white text-sm text-gray-700 shadow-sm"
+                    className="mt-1 w-full rounded-md border border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
                 </div>
@@ -101,14 +88,14 @@ export const Register = () => {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Adresse e-mail
+                    Email Address
                   </label>
                   <input
                     type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    className="mt-1 w-full rounded-md border border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
                 </div>
@@ -118,14 +105,14 @@ export const Register = () => {
                     htmlFor="password"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Mot de passe
+                    Password
                   </label>
                   <input
                     type="password"
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    className="mt-1 w-full rounded-md border border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
                 </div>
@@ -135,44 +122,34 @@ export const Register = () => {
                     htmlFor="number"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Numéro de téléphone
+                    Phone Number
                   </label>
                   <input
                     type="tel"
                     id="number"
                     value={number}
                     onChange={(e) => setNumber(e.target.value)}
-                    className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                    className="mt-1 w-full rounded-md border border-gray-300 bg-white text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                     required
                   />
                 </div>
 
                 <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                   <button className="btn" type="submit">
-                    S&apos;inscrire
+                    Sign Up
                   </button>
-                  <button onClick={handleLoginClick} className="btn">
-                    Connexion
-                  </button>
-                  <button
-                    onClick={() => setUserData(LoadData())}
-                    className="btn"
-                  >
-                    Afficher les utilisateurs
-                  </button>
+                  <p className="mt-4 text-sm text-gray-700">
+                    To log in, go to the{" "}
+                    <span
+                      className="cursor-pointer text-blue-500"
+                      onClick={handleLoginClick}
+                    >
+                      login page
+                    </span>
+                    .
+                  </p>
                 </div>
               </form>
-
-              <h2 className="mt-8 text-lg font-bold">
-                Données des utilisateurs inscrits :
-              </h2>
-              <div id="show">
-                {userData.length > 0 ? (
-                  LoadData()
-                ) : (
-                  <p>Aucune inscription enregistrée.</p>
-                )}
-              </div>
             </div>
           </main>
         </div>

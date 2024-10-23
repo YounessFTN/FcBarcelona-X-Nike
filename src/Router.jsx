@@ -9,9 +9,9 @@ import { Login } from "./components/login.jsx";
 import { NavBar } from "./components/navBar.jsx";
 import { NeedHelp } from "./components/needHelp.jsx";
 import { ProductDetail } from "./components/productDetail.jsx";
+import { Profile } from "./components/Profile.jsx";
 import { Register } from "./components/register.jsx";
 import { Sizes3Dqrcode } from "./components/Sizes3D.jsx";
-
 import Home from "./home.jsx";
 import "./index.css";
 import { Shop } from "./Shop.jsx";
@@ -26,6 +26,7 @@ const router = createBrowserRouter([
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/shop", element: <Shop /> },
+  { path: "/profile", element: <Profile /> },
   { path: "/confirmation", element: <Confirmation /> },
   {
     path: "/help",
