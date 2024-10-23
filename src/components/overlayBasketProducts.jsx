@@ -1,13 +1,14 @@
-import { useContext } from "react"; // Ajout de l'import de useContext
+import { Trash } from "lucide-react"; // Import de l'icône Lucide
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../context/CartContext"; // Assure-toi que le chemin est correct
+import { CartContext } from "../context/CartContext";
 
 export function OverlayBasketProducts() {
   const { basket, removeFromCart } = useContext(CartContext);
 
   const totalPrice = basket.reduce((total, product) => {
     const priceValue = parseFloat(product.price);
-    return total + priceValue * product.quantity;
+    return total + priceValue; // Retirer la multiplication par la quantité
   }, 0);
 
   return (
@@ -34,9 +35,11 @@ export function OverlayBasketProducts() {
 
       <div
         tabIndex={0}
-        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow"
+        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow-lg"
       >
-        <ul className="p-4 space-y-4 max-h-60 overflow-y-auto">
+        <ul className="p-4 space-y-4 max-h-36 overflow-y-auto">
+          {" "}
+          {/* Limite de hauteur ici */}
           {basket.map((product, index) => (
             <li
               key={`${product.uniqueId}-${index}`}
@@ -45,34 +48,30 @@ export function OverlayBasketProducts() {
               <img
                 src={product.image[0]}
                 alt={product.name}
-                className="size-16 rounded object-cover"
+                className="w-16 h-16 rounded object-cover"
               />
 
-              <div className="w-full">
+              <div className="flex flex-col justify-between w-full">
                 <h3 className="font-medium text-sm text-gray-900">
                   {product.name}
                 </h3>
 
-                <dl className="mt-0.5 space-y-px text-[10px] text-gray-600">
+                <div className="mt-0.5 space-y-px text-xs text-gray-600">
                   <div>
-                    <dt className="inline">Size: </dt>
-                    <dd className="inline">{product.size}</dd>
+                    <span className="font-bold">Color: </span>
+                    {product.color || "Default"}
                   </div>
 
-                  <div>
-                    <dt className="inline">Color: </dt>
-                    <dd className="inline">{product.color}</dd>
+                  <div className="text-black font-semibold">
+                    {product.price} €
                   </div>
-
-                  <div>
-                    <dd className="text-xs text-black">{product.price} €</dd>
-                  </div>
-                </dl>
+                </div>
 
                 <button
                   onClick={() => removeFromCart(product.uniqueId)}
-                  className="text-red-500 text-xs"
+                  className="text-red-500 flex items-center mt-2"
                 >
+                  <Trash className="w-4 h-4 mr-1" />
                   Remove
                 </button>
               </div>
