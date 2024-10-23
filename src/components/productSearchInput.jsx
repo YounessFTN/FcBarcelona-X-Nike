@@ -1,10 +1,15 @@
+import { Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom"; // Importer Link pour la navigation
+import { Link } from "react-router-dom";
 
 export function ProductSearchInput() {
-  const [products, setProducts] = useState([]); // État pour les produits
-  const [searchTerm, setSearchTerm] = useState(""); // État pour le terme de recherche
-  const [filteredProducts, setFilteredProducts] = useState([]); // État pour les produits filtrés
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTermModal, setSearchTermModal] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const modalRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   async function fetchData() {
     try {
@@ -19,8 +24,8 @@ export function ProductSearchInput() {
       );
       if (response.ok) {
         const data = await response.json();
-        setProducts(data); // Mettre à jour l'état avec les produits reçus
-        setFilteredProducts(data); // Initialiser les produits filtrés
+        setProducts(data);
+        setFilteredProducts(data);
       } else {
         console.error("Failed to fetch data from API");
       }
@@ -30,40 +35,43 @@ export function ProductSearchInput() {
   }
 
   useEffect(() => {
-    fetchData(); // Appel à l'API lors du montage du composant
+    fetchData();
   }, []);
 
   useEffect(() => {
-    // Filtrer les produits en fonction du terme de recherche dans le nom ou la catégorie
-    setFilteredProducts(
-      products.filter(
-        (product) =>
-          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          product.category.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    const filtered = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [searchTerm, products]); // Filtrer à chaque fois que la recherche ou les produits changent
+    setFilteredProducts(filtered);
+  }, [searchTerm, products]);
 
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const inputRef = useRef(null);
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setSearchTermModal(term);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.metaKey && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsSearchOpen(true);
+        setTimeout(() => {
+          modalRef.current?.querySelector("input")?.focus();
+        }, 100);
+      } else if (e.key === "Escape") {
+        setIsSearchOpen(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (inputRef.current && !inputRef.current.contains(e.target)) {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
         setIsSearchOpen(false);
       }
     };
@@ -71,73 +79,133 @@ export function ProductSearchInput() {
     if (isSearchOpen) {
       window.addEventListener("mousedown", handleClickOutside);
     }
-
-    return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => window.removeEventListener("mousedown", handleClickOutside);
   }, [isSearchOpen]);
 
-  return (
-    <div className="dropdown dropdown-end">
-      <div className="hidden lg:flex form-control">
-        <label className="input input-bordered flex items-center gap-2 p-2 shadow-sm hover:shadow-md transition-shadow duration-300">
-          <input
-            type="text"
-            className="grow indicator focus:outline-none"
-            placeholder="Search products..."
-            value={searchTerm} // Lier l'input à l'état de recherche
-            onChange={(e) => setSearchTerm(e.target.value)} // Mettre à jour le terme de recherche
-          />
-          <kbd className="kbd kbd-sm">⌘</kbd>
-          <kbd className="kbd kbd-sm">K</kbd>
-        </label>
-      </div>
-      <ul className="bg-white w-full dropdown-content p-4 space-y-4 max-h-60 overflow-y-auto shadow-lg rounded-lg">
-        {filteredProducts.map((product, index) => (
+  const ProductList = ({ products, closeModal }) => (
+    <ul className="bg-white w-full space-y-2 max-h-[60vh] overflow-y-auto rounded-lg">
+      {products.length === 0 ? (
+        <li className="text-center text-gray-500 py-4">No products found</li>
+      ) : (
+        products.map((product, index) => (
           <Link
-            key={`${product.id}-${index}`} // Utiliser l'ID du produit comme clé
-            to={`/product/${product._id}`} // Lien vers la page de détails du produit
+            key={`${product.id}-${index}`}
+            to={`/product/${product._id}`}
+            onClick={closeModal}
           >
-            <li className="flex-col w-full items-center gap-4 p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200">
-              <img
-                src={product.image ? product.image[0] : "default-image-url.jpg"}
-                alt={product.name}
-                className="w-full h-28 rounded-lg object-cover"
-              />
-              <div className="w-full">
-                <h3 className="font-medium text-sm text-gray-900">
-                  {product.name}
-                </h3>
-                <dl className="mt-0.5 space-y-1 text-xs text-gray-600">
-                  <div className="flex justify-between">
-                    <dt>Type:</dt>
-                    <dd>{product.category || "N/A"}</dd>
+            <li className="group flex w-full hover:bg-gray-50 rounded-lg transition-all duration-200">
+              {/* Container for image */}
+              <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-l-lg">
+                <img
+                  src={
+                    product.image ? product.image[0] : "default-image-url.jpg"
+                  }
+                  alt={product.name}
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+
+              {/* Container for product details */}
+              <div className="flex-1 p-3">
+                <div className="flex flex-col justify-between h-full">
+                  <div>
+                    <h3 className="font-medium text-sm text-gray-900 line-clamp-1">
+                      {product.name}
+                    </h3>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="text-xs px-2 py-1 bg-gray-100 rounded text-gray-600">
+                        {product.category || "N/A"}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right font-bold text-black">
-                    {product.price} €
+                  <div className="mt-2">
+                    <span className="font-bold text-sm text-blue-600">
+                      {product.price} €
+                    </span>
                   </div>
-                </dl>
+                </div>
               </div>
             </li>
           </Link>
-        ))}
-      </ul>
-      {isSearchOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-[9999]">
-          <div
-            ref={inputRef}
-            className="bg-white p-4 rounded-lg shadow-lg w-1/2"
-          >
-            <input
-              type="text"
-              placeholder="Search products..."
-              className="input input-bordered w-full"
-              value={searchTerm} // Lier à la recherche dans la fenêtre modale également
-              onChange={(e) => setSearchTerm(e.target.value)} // Mettre à jour le terme de recherche
-            />
+        ))
+      )}
+    </ul>
+  );
+
+  return (
+    <div className="relative">
+      {/* Desktop Search Input */}
+      <div className="hidden lg:block">
+        <div className="relative">
+          <input
+            ref={searchInputRef}
+            type="text"
+            className="w-full h-10 pl-10 pr-12 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-200"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            <kbd className="hidden sm:inline-flex px-2 py-1 text-xs font-semibold text-gray-500 bg-gray-100 border border-gray-200 rounded">
+              ⌘K
+            </kbd>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile Search Button */}
+      <button
+        className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+        onClick={() => setIsSearchOpen(true)}
+        aria-label="Search"
+      >
+        <Search className="w-5 h-5 text-gray-600" />
+      </button>
+
+      {/* Search Modal */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="min-h-screen px-4 flex items-start justify-center pt-16">
+            <div
+              ref={modalRef}
+              className="w-full max-w-2xl bg-white rounded-xl shadow-2xl transform transition-all"
+            >
+              <div className="p-4">
+                <div className="relative">
+                  <input
+                    type="text"
+                    autoFocus
+                    className="w-full h-12 pl-10 pr-4 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors duration-200"
+                    placeholder="Search products..."
+                    value={searchTermModal}
+                    onChange={(e) => handleSearch(e.target.value)}
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                </div>
+                <div className="mt-4">
+                  <ProductList
+                    products={filteredProducts}
+                    closeModal={() => setIsSearchOpen(false)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Dropdown for desktop search results */}
+      {searchTerm && !isSearchOpen && (
+        <div className="absolute w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+          <ProductList
+            products={filteredProducts}
+            closeModal={() => setSearchTerm("")}
+          />
         </div>
       )}
     </div>
   );
 }
+
+export default ProductSearchInput;
