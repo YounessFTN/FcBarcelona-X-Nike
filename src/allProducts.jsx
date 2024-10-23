@@ -320,16 +320,10 @@ const AllProducts = () => {
                         {product.name}
                       </Link>
                     </h3>
-<<<<<<< HEAD
                     <p className="mt-1 text-sm text-gray-500">
                       {product.category}
                     </p>
-=======
->>>>>>> f827b41 (modification  sonia merge in youness)
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {product.price} €
-                  </p>
                 </div>
               </div>
             ))}
