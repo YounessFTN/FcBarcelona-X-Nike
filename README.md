@@ -34,7 +34,8 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (version 14.18+)
+- [Node.js](https://nodejs.org/) My version (git version 2.39.5 (Apple Git-154))
+- [Git](https://git-scm.com/) My version (node version v20.11.0)
 
 ## Installation
 
@@ -61,6 +62,7 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
    ```
 5. Open the link :
    http://localhost:5173/
+
 6. Start Back end :
    ```bash
    npm start
@@ -69,9 +71,20 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
    ```bash
    touch .env
    ```
-8. store your 2 Stripe keys in the created file :
+8. Store your 2 Stripe keys in the created file :
 
    ```bash
    VITE_STRIPE_PUBLIC_KEY=pk_test_51QCeDaGOVTeqsp6jRz9vrLMxBmbxexeFQ7JZBO3CZGiXdpQDASpT3DHyYaHx3IdG2fQqqW2xJfCx1IvSe6B2ptti005n0OKLyu
    STRIPE_SECRET_KEY=sk_test_51QCeDaGOVTeqsp6jNJum5GKhJfoPIsoAfQhD30gPDS9akkFLUS8haYd8THW0EOnKn53mhShuykQmYwGj1BbokNWZ006WDcopzH
    ```
+
+---
+
+## Key Dependencies
+
+- **[react](https://reactjs.org/)**: A JavaScript library for building user interfaces.
+- **[@stripe/react-stripe-js](https://stripe.com/docs/stripe-js/react)**: React components and hooks for Stripe integration, allowing for easy payment handling.
+- **[@stripe/stripe-js](https://stripe.com/docs/js)**: The official Stripe.js library for client-side integrations.
+- **[express](https://expressjs.com/)**: A fast, unopinionated, minimalist web framework for Node.js.
+- **[vite](https://vitejs.dev/)**: A build tool that focuses on speed and performance.
+- **[tailwindcss](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.
