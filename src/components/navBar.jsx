@@ -32,7 +32,7 @@ function LienACount() {
   return (
     <>
       <li>
-        <Link className="justify-between">
+        <Link to="/profile" className="justify-between">
           Profile<span className="badge">New</span>
         </Link>
       </li>
@@ -40,7 +40,7 @@ function LienACount() {
         <Link to="/login">Login</Link>
       </li>
       <li>
-        <Link to="/register">Register</Link>
+        <Link to="/register">sign up</Link>
       </li>
       <li>
         <Link to="/shop">Your cart</Link>
