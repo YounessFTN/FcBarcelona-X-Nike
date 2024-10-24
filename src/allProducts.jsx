@@ -27,9 +27,9 @@ const filters = [
     id: 'category',
     name: 'Category',
     options: [
-      { value: 'chaussures', label: 'Shoes' },
-      { value: 'vêtements', label: 'Clothing' },
-      { value: 'accessoires', label: 'Accessories' },
+      { value: 'shoes', label: 'Shoes' },
+      { value: 'clothing', label: 'Clothing' },
+      { value: 'accessories', label: 'Accessories' },
     ],
   },
   {
@@ -42,6 +42,7 @@ const filters = [
     ],
   },
 ];
+
 
 const sizeOptions = {
   chaussures: ['36', '37', '38', '39', '40', '41', '42', '43', '44', '45'],
@@ -129,15 +130,15 @@ const AllProducts = () => {
         : [...prevSelectedSizes, size]
     );
   };
-
   const getSizeOptionsForCategory = () => {
-    if (selectedOptions.category === 'chaussures') {
+    if (selectedOptions.category === 'shoes') {
       return sizeOptions.chaussures;
-    } else if (selectedOptions.category === 'vêtements') {
+    } else if (selectedOptions.category === 'clothing') {
       return sizeOptions.vêtements;
     }
     return [];
   };
+  
 
   return (
     <>

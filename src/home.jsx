@@ -108,18 +108,15 @@ function PrincipaleSection() {
 function TypeProducts() {
   return (
     <section id="our-products">
-      {/* Container */}
       <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
-        {/* Title */}
         <h2 className="text-3xl font-bold md:text-5xl">Our Products</h2>
         <p className="msm:text-base mb-8 mt-4 text-sm text-gray-500 md:mb-12 lg:mb-16">
           Discover Our Exclusive Collection
         </p>
-        {/* Content */}
         <div className="mx-auto grid justify-items-stretch gap-4 md:grid-cols-2 lg:gap-10">
           {/* Clothing */}
           <Link
-            to="/products?category=vêtements"
+            to="/products?category=clothing"
             className="relative flex h-[300px] items-end [grid-area:1/1/3/2] md:h-auto"
           >
             <img
@@ -133,7 +130,7 @@ function TypeProducts() {
             </div>
           </Link>
           {/* Shoes */}
-          <Link to="/products?category=chaussures" className="relative flex h-[300px] items-end">
+          <Link to="/products?category=shoes" className="relative flex h-[300px] items-end">
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/w_706,c_limit/e3a4a429-20ce-4345-9e98-a6e845848bd7/nike-football.jpg"
               alt="Shoes"
@@ -145,7 +142,7 @@ function TypeProducts() {
             </div>
           </Link>
           {/* Accessories */}
-          <Link to="/products?category=accessoires" className="relative flex h-[300px] items-end">
+          <Link to="/products?category=accessories" className="relative flex h-[300px] items-end">
             <img
               src="https://static.nike.com/a/images/f_auto/dpr_2.0,cs_srgb/h_552,c_limit/5bf9a93f-456b-49a0-b7d4-3e3874f92b0e/nike-basketball.png"
               alt="Accessories"
