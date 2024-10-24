@@ -110,18 +110,15 @@ function PrincipaleSection() {
 function TypeProducts() {
   return (
     <section id="our-products">
-      {/* Container */}
       <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
-        {/* Title */}
         <h2 className="text-3xl font-bold md:text-5xl">Our Products</h2>
         <p className="msm:text-base mb-8 mt-4 text-sm text-gray-500 md:mb-12 lg:mb-16">
           Discover Our Exclusive Collection
         </p>
-        {/* Content */}
         <div className="mx-auto grid justify-items-stretch gap-4 md:grid-cols-2 lg:gap-10">
           {/* Clothing */}
           <Link
-            to="/products?category=vêtements"
+            to="/products?category=clothing"
             className="relative flex h-[300px] items-end [grid-area:1/1/3/2] md:h-auto"
           >
             <img
@@ -136,7 +133,7 @@ function TypeProducts() {
           </Link>
           {/* Shoes */}
           <Link
-            to="/products?category=chaussures"
+            to="/products?category=shoes"
             className="relative flex h-[300px] items-end"
           >
             <img
@@ -151,7 +148,7 @@ function TypeProducts() {
           </Link>
           {/* Accessories */}
           <Link
-            to="/products?category=accessoires"
+            to="/products?category=accessories"
             className="relative flex h-[300px] items-end"
           >
             <img
@@ -169,7 +166,6 @@ function TypeProducts() {
     </section>
   );
 }
-
 function Teste() {
   return (
     <>

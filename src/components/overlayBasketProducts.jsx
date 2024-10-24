@@ -1,4 +1,4 @@
-import { Trash } from "lucide-react"; // Import de l'icône Lucide
+import { Trash } from "lucide-react";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
@@ -8,12 +8,16 @@ export function OverlayBasketProducts() {
 
   const totalPrice = basket.reduce((total, product) => {
     const priceValue = parseFloat(product.price);
-    return total + priceValue; // Retirer la multiplication par la quantité
+    return total + priceValue;
   }, 0);
 
   return (
     <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+      <div
+        tabIndex={0}
+        role="button"
+        className="btn btn-ghost btn-circle relative"
+      >
         <div className="indicator">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,69 +33,84 @@ export function OverlayBasketProducts() {
               d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
             />
           </svg>
-          <span className="badge badge-sm indicator-item">{basket.length}</span>
+          <span className="badge badge-sm indicator-item bg-blue-600 text-white">
+            {basket.length}
+          </span>
         </div>
       </div>
 
       <div
         tabIndex={0}
-        className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 min-w-64 shadow-lg"
+        className="card dropdown-content z-[1] mt-3 bg-white shadow-xl rounded-xl border border-gray-100 w-80"
       >
-        <ul className="p-4 space-y-4 max-h-36 overflow-y-auto">
-          {" "}
-          {/* Limite de hauteur ici */}
-          {basket.map((product, index) => (
-            <li
-              key={`${product.uniqueId}-${index}`}
-              className="flex items-center gap-4"
-            >
-              <img
-                src={product.image[0]}
-                alt={product.name}
-                className="w-16 h-16 rounded object-cover"
-              />
+        <div className="p-4">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            Shopping Cart
+          </h2>
 
-              <div className="flex flex-col justify-between w-full">
-                <h3 className="font-medium text-sm text-gray-900">
-                  {product.name}
-                </h3>
+          <div className="max-h-96 overflow-y-auto space-y-4">
+            {basket.length === 0 ? (
+              <div className="text-center py-6 text-gray-500">
+                Your cart is empty
+              </div>
+            ) : (
+              basket.map((product, index) => (
+                <div
+                  key={`${product.uniqueId}-${index}`}
+                  className="flex gap-4 p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  <img
+                    src={product.image[0]}
+                    alt={product.name}
+                    className="w-20 h-20 rounded-lg object-cover"
+                  />
 
-                <div className="mt-0.5 space-y-px text-xs text-gray-600">
-                  <div>
-                    <span className="font-bold">Color: </span>
-                    {product.color || "Default"}
-                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between">
+                      <h3 className="font-medium text-gray-900">
+                        {product.name}
+                      </h3>
+                      <button
+                        onClick={() => removeFromCart(product.uniqueId)}
+                        className="text-gray-400 hover:text-red-500 transition-colors"
+                      >
+                        <Trash className="w-4 h-4" />
+                      </button>
+                    </div>
 
-                  <div className="text-black font-semibold">
-                    {product.price} €
+                    <div className="mt-1 text-sm text-gray-500">
+                      {product.color || "Default"} · {product.size || "Default"}
+                    </div>
+
+                    <div className="mt-2 flex items-center justify-between">
+                      <span className="font-medium text-gray-900">
+                        €{parseFloat(product.price).toFixed(2)}
+                      </span>
+                    </div>
                   </div>
                 </div>
-
-                <button
-                  onClick={() => removeFromCart(product.uniqueId)}
-                  className="text-red-500 flex items-center mt-2"
-                >
-                  <Trash className="w-4 h-4 mr-1" />
-                  Remove
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="card-body">
-          <span className="font-semibold">
-            Subtotal: {totalPrice.toFixed(2)} €
-          </span>
-          <div className="card-actions">
-            <Link to="/shop">
-              <button className="btn btn-block">
-                View Bag {"(" + basket.length + ")"}
-              </button>
-            </Link>
+              ))
+            )}
           </div>
+        </div>
+
+        <div className="border-t border-gray-100 p-4 bg-gray-50 rounded-b-xl">
+          <div className="flex justify-between mb-4">
+            <span className="text-gray-600">Subtotal</span>
+            <span className="font-medium text-gray-900">
+              €{totalPrice.toFixed(2)}
+            </span>
+          </div>
+
+          <Link to="/shop" className="block">
+            <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              View Cart ({basket.length} items)
+            </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
+
+export default OverlayBasketProducts;

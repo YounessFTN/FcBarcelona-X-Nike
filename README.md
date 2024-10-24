@@ -63,19 +63,20 @@ This project uses [Vite.js](https://vitejs.dev/) for a fast startup with a high-
 5. Open the link :
    http://localhost:5173/
 
-6. Start Back end :
-   ```bash
-   npm start
-   ```
-7. Create a .env file to store your stripe keys :
+6. Create a .env file to store your stripe keys :
    ```bash
    touch .env
    ```
-8. Store your 2 Stripe keys in the created file :
+7. Store your 2 Stripe keys in the created file :
 
    ```bash
    VITE_STRIPE_PUBLIC_KEY=pk_test_51QCeDaGOVTeqsp6jRz9vrLMxBmbxexeFQ7JZBO3CZGiXdpQDASpT3DHyYaHx3IdG2fQqqW2xJfCx1IvSe6B2ptti005n0OKLyu
    STRIPE_SECRET_KEY=sk_test_51QCeDaGOVTeqsp6jNJum5GKhJfoPIsoAfQhD30gPDS9akkFLUS8haYd8THW0EOnKn53mhShuykQmYwGj1BbokNWZ006WDcopzH
+   ```
+
+8. Start Back end :
+   ```bash
+   npm start
    ```
 
 ---
