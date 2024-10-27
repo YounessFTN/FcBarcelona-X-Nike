@@ -6,4 +6,5 @@ export default defineConfig({
   define: {
     "process.env": process.env,
   },
+  base: "/FcBarcelona-X-Nike/",
 });
