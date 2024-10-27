@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
 import AllProducts from "./allProducts.jsx";
 import { NotFound } from "./components/404.jsx";
 import { Account } from "./components/account.jsx";
@@ -18,44 +18,7 @@ import { Shop } from "./Shop.jsx";
 import Confirmation from "./Stripe/confirmation.jsx";
 import OrderError from "./Stripe/OrderError.jsx";
 
-const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
-  { path: "/products", element: <AllProducts /> },
-  { path: "/product/:id", element: <ProductDetail /> },
-  { path: "/account", element: <Account /> },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-  { path: "/shop", element: <Shop /> },
-  { path: "/profile", element: <Profile /> },
-  { path: "/confirmation", element: <Confirmation /> },
-  {
-    path: "/help",
-    element: (
-      <>
-        {" "}
-        <NavBar />
-        <NeedHelp />
-      </>
-    ),
-  },
-  {
-    path: "/error",
-    element: <OrderError />,
-  },
-  {
-    path: "/try-your-size",
-    element: (
-      <>
-        <NavBar />
-        <Sizes3Dqrcode />
-        <Footer />
-      </>
-    ),
-  },
-  { path: "*", element: <NotFound /> },
-]);
-
-export default function Router() {
+export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -67,6 +30,45 @@ export default function Router() {
   }, []);
 
   return (
-    <>{isLoading ? <LoadingComponent /> : <RouterProvider router={router} />}</>
+    <>
+      {isLoading ? (
+        <LoadingComponent />
+      ) : (
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<AllProducts />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/confirmation" element={<Confirmation />} />
+            <Route
+              path="/help"
+              element={
+                <>
+                  <NavBar />
+                  <NeedHelp />
+                </>
+              }
+            />
+            <Route path="/error" element={<OrderError />} />
+            <Route
+              path="/try-your-size"
+              element={
+                <>
+                  <NavBar />
+                  <Sizes3Dqrcode />
+                  <Footer />
+                </>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      )}
+    </>
   );
 }
